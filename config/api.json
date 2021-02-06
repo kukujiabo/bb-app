@@ -1,0 +1,10 @@
+{
+	"sendCode": "/mallapi/login/sendcode",
+	"register": "/mallapi/login/reg",
+	"login": "/mallapi/login/signin",
+	"index": "/mallapi/index/index",
+	"user": "/mallapi/user/index",
+	"userinfo": "/mallapi/user/information",
+	"editHeader": "/mallapi/user/headimg",
+	"testdb": "/mallapi/question/index"
+}

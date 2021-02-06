@@ -1,0 +1,138 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/auth/login/login",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom",
+				"navigationBarTextStyle":"black"
+			}
+		}, {
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "uni-app",
+				"navigationStyle": "custom",
+				"navigationBarTextStyle":"black"
+			}
+		}, {
+			"path": "pages/my/user/user",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black"
+			}
+		}, {
+			"path": "pages/match/match/match",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": false,
+				"navigationBarTextStyle":"black"
+			}
+		}, {
+			"path": "pages/testdb/testdb/testdb",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false,
+				"navigationBarTextStyle":"black"
+			}
+		}, {
+			"path": "pages/testdb/exam/exam/exam",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom",
+				"navigationBarTextStyle":"black"
+			}
+		}, {
+			"path": "pages/auth/register/nickname",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false,
+				"navigationBarTextStyle":"black"
+			}
+		}, {
+			"path": "pages/auth/register/phone",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false,
+				"navigationBarTextStyle":"black"
+			}
+		}, {
+			"path": "pages/auth/register/checkcode",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false,
+				"navigationBarTextStyle":"black"
+			}
+		}, {
+			"path": "pages/auth/register/password",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false,
+				"navigationBarTextStyle":"black"
+			}
+		}, {
+			"path": "pages/my/settings/settings",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black"
+			}
+		}, {
+			"path": "pages/my/userinfo/userinfo",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom",
+				"navigationBarTextStyle":"black"
+			}
+		}, {
+			"path": "pages/my/editText/editText",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom",
+				"navigationBarTextStyle":"black"
+			}
+		}, {
+			"path": "pages/my/space/space",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom",
+				"navigationBarTextStyle":"black"
+			}
+		}
+	],
+	"tabBar": {
+		"borderStyle": "white",
+		"backgroundColor": "#FFFFFF",
+		"selectedColor": "#46868B",
+		"color": "#282828",
+		"list": [{
+			"pagePath": "pages/index/index",
+			"selectedIconPath": "static/images/ico04.png",
+			"iconPath": "static/images/ico01.png",
+			"text": "首页"
+		}, {
+			"pagePath": "pages/match/match/match",
+			"selectedIconPath": "static/images/ico02.png",
+			"iconPath": "static/images/ico05.png",
+			"text": "匹配"
+		}, {
+			"pagePath": "pages/my/user/user",
+			"selectedIconPath": "static/images/ico03.png",
+			"iconPath": "static/images/ico06.png",
+			"text": "我的"
+		}]
+	}
+}
