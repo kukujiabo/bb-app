@@ -112,7 +112,16 @@
 				"navigationBarTextStyle":"black"
 			}
 		}
-	],
+	    ,{
+            "path" : "pages/testdb/doQuestion/doQuestion",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
 	"tabBar": {
 		"borderStyle": "white",
 		"backgroundColor": "#FFFFFF",
