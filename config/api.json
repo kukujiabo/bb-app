@@ -6,5 +6,6 @@
 	"user": "/mallapi/user/index",
 	"userinfo": "/mallapi/user/information",
 	"editHeader": "/mallapi/user/headimg",
-	"testdb": "/mallapi/question/index"
+	"testdb": "/mallapi/question/index",
+	"questionList": "/mallapi/question/lists"
 }

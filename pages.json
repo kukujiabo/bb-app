@@ -6,14 +6,14 @@
 				"navigationBarTitleText": "",
 				"enablePullDownRefresh": false,
 				"navigationStyle": "custom",
-				"navigationBarTextStyle":"black"
+				"navigationBarTextStyle": "black"
 			}
 		}, {
 			"path": "pages/index/index",
 			"style": {
 				"navigationBarTitleText": "uni-app",
 				"navigationStyle": "custom",
-				"navigationBarTextStyle":"black"
+				"navigationBarTextStyle": "black"
 			}
 		}, {
 			"path": "pages/my/user/user",
@@ -29,7 +29,7 @@
 				"navigationBarTitleText": "",
 				"navigationStyle": "custom",
 				"enablePullDownRefresh": false,
-				"navigationBarTextStyle":"black"
+				"navigationBarTextStyle": "black"
 			}
 		}, {
 			"path": "pages/testdb/testdb/testdb",
@@ -37,7 +37,7 @@
 				"navigationStyle": "custom",
 				"navigationBarTitleText": "",
 				"enablePullDownRefresh": false,
-				"navigationBarTextStyle":"black"
+				"navigationBarTextStyle": "black"
 			}
 		}, {
 			"path": "pages/testdb/exam/exam/exam",
@@ -45,7 +45,7 @@
 				"navigationBarTitleText": "",
 				"enablePullDownRefresh": false,
 				"navigationStyle": "custom",
-				"navigationBarTextStyle":"black"
+				"navigationBarTextStyle": "black"
 			}
 		}, {
 			"path": "pages/auth/register/nickname",
@@ -53,7 +53,7 @@
 				"navigationStyle": "custom",
 				"navigationBarTitleText": "",
 				"enablePullDownRefresh": false,
-				"navigationBarTextStyle":"black"
+				"navigationBarTextStyle": "black"
 			}
 		}, {
 			"path": "pages/auth/register/phone",
@@ -61,7 +61,7 @@
 				"navigationStyle": "custom",
 				"navigationBarTitleText": "",
 				"enablePullDownRefresh": false,
-				"navigationBarTextStyle":"black"
+				"navigationBarTextStyle": "black"
 			}
 		}, {
 			"path": "pages/auth/register/checkcode",
@@ -69,7 +69,7 @@
 				"navigationStyle": "custom",
 				"navigationBarTitleText": "",
 				"enablePullDownRefresh": false,
-				"navigationBarTextStyle":"black"
+				"navigationBarTextStyle": "black"
 			}
 		}, {
 			"path": "pages/auth/register/password",
@@ -77,7 +77,7 @@
 				"navigationStyle": "custom",
 				"navigationBarTitleText": "",
 				"enablePullDownRefresh": false,
-				"navigationBarTextStyle":"black"
+				"navigationBarTextStyle": "black"
 			}
 		}, {
 			"path": "pages/my/settings/settings",
@@ -93,7 +93,7 @@
 				"navigationBarTitleText": "",
 				"enablePullDownRefresh": false,
 				"navigationStyle": "custom",
-				"navigationBarTextStyle":"black"
+				"navigationBarTextStyle": "black"
 			}
 		}, {
 			"path": "pages/my/editText/editText",
@@ -101,7 +101,7 @@
 				"navigationBarTitleText": "",
 				"enablePullDownRefresh": false,
 				"navigationStyle": "custom",
-				"navigationBarTextStyle":"black"
+				"navigationBarTextStyle": "black"
 			}
 		}, {
 			"path": "pages/my/space/space",
@@ -109,19 +109,19 @@
 				"navigationBarTitleText": "",
 				"enablePullDownRefresh": false,
 				"navigationStyle": "custom",
-				"navigationBarTextStyle":"black"
+				"navigationBarTextStyle": "black"
 			}
+		}, {
+			"path": "pages/testdb/doQuestion/doQuestion",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black"
+			}
+
 		}
-	    ,{
-            "path" : "pages/testdb/doQuestion/doQuestion",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-    ],
+	],
 	"tabBar": {
 		"borderStyle": "white",
 		"backgroundColor": "#FFFFFF",

@@ -35,7 +35,7 @@
 			</view>
 		</view>
 		<view class="test-wrapper">
-			<view class="page-list-item" v-for="test in question_list" :key="test.id">
+			<view class="page-list-item" v-for="test in question_list" :key="test.id" @click="toDoQuestion(test.id)">
 				<text class="page-list-item-title">{{test.title}}</text>
 				<text class="page-list-item-test">共{{test.question_num}}题目</text>
 				<text class="page-list-item-join">参与{{test.numbers}}w</text>
@@ -76,6 +76,11 @@
 			toMore() {
 				uni.navigateTo({
 					url: '../testdb/testdb/testdb'
+				})
+			},
+			toDoQuestion(id) {
+				uni.navigateTo({
+					url: '../testdb/doQuestion/doQuestion?id=' + id
 				})
 			}
 		}

@@ -9,6 +9,7 @@
 				class="page-list-item"
 				v-for="question in question_list"
 				:key="question.id"
+				@click="toDoQuestion(question.id)"
 				>
 				<text class="page-list-item-title">{{question.title}}</text>
 				<text class="page-list-item-test">共{{question.question_num}}题目</text>
@@ -38,6 +39,11 @@
 				const user_id = uni.getStorageSync('uid')
 				const res = await request(testdb, { user_id }, {})
 				this.question_list = res.result.question_list
+			},
+			toDoQuestion(id) {
+				uni.navigateTo({
+					url: '../doQuestion/doQuestion?id=' + id
+				})
 			}
 		}
 	}
