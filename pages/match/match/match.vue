@@ -16,8 +16,8 @@
 			<image v-if="index === 1" class="check-icon" src="../../../static/images/iconrightinactive.png"></image>
 			<text>按学识匹配</text>
 		</view>
-		<view class="next-wrapper">
-			<image class="next-image" src="../../../static/images/ico01@2x.png"></image>
+		<view class="next-wrapper" >
+			<image class="next-image" src="../../../static/images/ico01@2x.png" @click="toDoMatch"></image>
 		</view>
 	</view>
 </template>
@@ -32,6 +32,11 @@
 		methods: {
 			switchType(index) {
 				this.index = index
+			},
+			toDoMatch() {
+				uni.navigateTo({
+					url: '/pages/match/doMAtch/doMAtch?index=' + this.index
+				})
 			}
 		}
 	}

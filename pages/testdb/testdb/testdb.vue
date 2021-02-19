@@ -37,7 +37,7 @@
 			},
 			async getTestDb() {
 				const user_id = uni.getStorageSync('uid')
-				const res = await request(testdb, { user_id }, {})
+				const res = await request(testdb, { user_id }, {}, 'GET')
 				this.question_list = res.result.question_list
 			},
 			toDoQuestion(id) {

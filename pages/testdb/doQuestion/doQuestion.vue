@@ -5,7 +5,7 @@
 			<text class="exam-title">知识题库</text>
 		</view>
 		<view class="match-title-wrapper">
-			<text class="match-title-text">{{currentQuestion.title}}</text>
+			<rich-text :nodes="currentQuestion.title" space="nbsp"></rich-text>
 		</view>
 		<view class="question-image-wrapper">
 			<image class="question-image" :src="currentQuestion.cover_img"></image>
@@ -85,13 +85,14 @@
 					this.index = 0
 					this.answers.push({ id: this.currentQuestion.id, id: index})
 				} else {
-					uni.showToast({
-						icon: 'none',
-						title: '测试已完成, 后续匹配功能在开发中.'
+					uni.showLoading({
+						title: '测试完成...',
+						mask: true
 					})
-					setTimeout(() => uni.navigateBack({
-					
-					}), 1500)
+					setTimeout(() => {
+						uni.hideLoading()
+						uni.redirectTo({ url: '/pages/match/doMAtch/doMAtch' })
+					}, 1000)
 				}
 			}
 		}

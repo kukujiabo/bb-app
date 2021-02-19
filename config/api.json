@@ -7,5 +7,9 @@
 	"userinfo": "/mallapi/user/information",
 	"editHeader": "/mallapi/user/headimg",
 	"testdb": "/mallapi/question/index",
-	"questionList": "/mallapi/question/lists"
+	"questionList": "/mallapi/question/lists",
+	"dropdown": "/mallapi/index/getuserdropdown",
+	"editUser": "/mallapi/user/edit",
+	"myspace": "/mallapi/user/getprodetail",
+	"spacelist": "/mallapi/user/zone"
 }

@@ -17,14 +17,14 @@
 					<text class="member-type-status">未开通会员</text>
 				</view>
 				<view class="buy">
-					<view class="buy-btn">
+					<view class="buy-btn" @click="openMember">
 						<text>开通会员</text>
 					</view>
 				</view>
 			</view>
 		</view>
 		<view class="user-grid">
-			<view class="user-grid-item" style="width:130upx">
+			<view class="user-grid-item" style="width:130upx" @click="toHobby">
 				<image class="user-grid-item-icon" src="../../../static/images/hobbit.png"></image>
 				<text class="user-grid-item-title">兴趣爱好</text>
 			</view>
@@ -32,7 +32,7 @@
 				<image class="user-grid-item-icon" src="../../../static/images/myspace.png"></image>
 				<text class="user-grid-item-title">我的空间（{{numbers.space_num}}）</text>
 			</view>
-			<view class="user-grid-item">
+			<view class="user-grid-item" @click="toMatch">
 				<image class="user-grid-item-icon" src="../../../static/images/match-record.png"></image>
 				<text class="user-grid-item-title">匹配记录（{{numbers.match_times}}）</text>
 			</view>
@@ -41,18 +41,14 @@
 			<text>最新发布</text>
 		</view>
 		<view class="diliver-list">
-			<view class="diliver-list-item">
-				<image class="diliver-item-image"></image>
-				<view class="diliver-list-item-text">
-					<text class="diliver-list-item-text-title">标题</text>
-					<text class="diliver-list-item-text-desc">简介内容简介内容简介内容内容内容</text>
-				</view>
+			<view class="empty" v-if="new_space.length === 0">
+				<text>还没有发布哦～</text>
 			</view>
-			<view class="diliver-list-item">
-				<image class="diliver-item-image"></image>
+			<view class="diliver-list-item" v-for="space in new_space" :key="space.id">
+				<image class="diliver-item-image" :src="space.thumb"></image>
 				<view class="diliver-list-item-text">
-					<text class="diliver-list-item-text-title">标题</text>
-					<text class="diliver-list-item-text-desc">简介内容简介内容简介内容内容内容</text>
+					<text class="diliver-list-item-text-title">{{space.title}}</text>
+					<text class="diliver-list-item-text-desc">{{space.desc}}</text>
 				</view>
 			</view>
 		</view>
@@ -92,7 +88,9 @@
 					"times": 0,
 					"is_vip": 0,
 					"expire_time": ""
-				}
+				},
+				is_secret: 0,
+				new_space: []
 			};
 		},
 		computed: {
@@ -114,6 +112,11 @@
 			this.getUser()
 		},
 		methods: {
+			toHobby() {
+				uni.navigateTo({
+					url: '/pages/my/hobby/hobby'
+				})
+			},
 			toSpace() {
 				uni.navigateTo({
 					url: '/pages/my/space/space'
@@ -134,6 +137,16 @@
 			toSettings() {
 				uni.navigateTo({
 					url: '/pages/my/settings/settings'
+				})
+			},
+			toMatch() {
+				uni.navigateTo({
+					url: '/pages/my/matchRecord/matchRecord'
+				})
+			},
+			openMember() {
+				uni.navigateTo({
+					url: '/pages/my/member/member'
 				})
 			}
 		}
@@ -293,6 +306,18 @@
 	.diliver-list {
 		padding: 0 40upx;
 		margin-top: 9upx;
+		.empty {
+			height: 200upx;
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: center;
+			font-size: 28upx;
+			font-weight: 400;
+			font-family: PingFang SC;
+			line-height: 35upx;
+			color: #939393;
+		}
 		.diliver-list-item {
 			height: 170upx;
 			padding: 20upx 0;

@@ -8,7 +8,7 @@ const secret = 'znKTm6uKCS3EEin4lpt4LW6qXdxxQbUe'
 // 	return md5(str)
 // }
 
-export default async function(service, datas, header) {
+export default async function(service, datas, header, method) {
 	let url = Host.url
 	let h = header || {}
 	h['content-type'] = h['content-type'] || 'application/x-www-form-urlencoded'
@@ -25,7 +25,7 @@ export default async function(service, datas, header) {
 			url: url + service,
 			data: datas,
 			header: h,
-			method: 'POST',
+			method: method || 'POST',
 			dataType: 'json',
 			success(res) {
 				console.log(res)

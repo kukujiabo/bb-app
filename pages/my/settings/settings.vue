@@ -9,11 +9,11 @@
 				<text class="content-title">个人信息</text>
 				<image class="toleft" src="../../../static/images/ico07@2x.png"></image>
 			</view>
-			<view class="content-item">
+			<view class="content-item" @tap="showSelectColor(1)">
 				<text class="content-title">喜欢的色彩</text>
 				<image class="toleft" src="../../../static/images/ico07@2x.png"></image>
 			</view>
-			<view class="content-item">
+			<view class="content-item" @tap="showSelectColor(4)">
 				<text class="content-title">职业</text>
 				<image class="toleft" src="../../../static/images/ico07@2x.png"></image>
 			</view>
@@ -21,35 +21,134 @@
 				<text class="content-title">出生日期</text>
 				<image class="toleft" src="../../../static/images/ico07@2x.png"></image>
 			</view>
-			<view class="content-item">
+			<view class="content-item" @tap="showSelectColor(6)">
 				<text class="content-title">地址</text>
 				<image class="toleft" src="../../../static/images/ico07@2x.png"></image>
 			</view>
-			<view class="content-item">
+			<view class="content-item" @tap="showSelectColor(5)">
 				<text class="content-title">格言</text>
 				<image class="toleft" src="../../../static/images/ico07@2x.png"></image>
 			</view>
-			<view class="content-item">
+			<view class="content-item" @tap="showSelectColor(2)">
 				<text class="content-title">运动</text>
 				<image class="toleft" src="../../../static/images/ico07@2x.png"></image>
 			</view>
-			<view class="content-item">
+			<view class="content-item" @tap="showSelectColor(3)">
 				<text class="content-title">旅游</text>
 				<image class="toleft" src="../../../static/images/ico07@2x.png"></image>
 			</view>
-			<view class="confirm">
+			<view class="confirm" @tap="confirmInfo">
 				<text class="confirm-text">确定</text>
 			</view>
 		</view>
+		<selector
+			ref="selector"
+			:currentId="currentId"
+			:title="currentOptions.selectTitle" 
+			:options="currentOptions.options"
+			:confirmText="currentOptions.confirmText"
+			@confirm="selectConfirm"
+			>
+		</selector>
 	</view>
 </template>
 
 <script>
+	import Selector from '../../../components/selector.vue'
+	import request from '../../../utils/request.js'
+	import { dropdown, editUser, userinfo } from '@/config/api'
+	const sns = [1,2,3,4,5]
 	export default {
+		components: {
+			Selector
+		},
 		data() {
 			return {
-
+				currentId: 0,
+				colorOptions: {
+					key: 'select_color',
+					selectTitle: '喜欢的色彩',
+					confirmText: '确定',
+					options: [],
+				},
+				sportOptions: {
+					key: 'select_sports',
+					selectTitle: '喜欢的运动',
+					confirmText: '确定',
+					options: [],
+				},
+				tripOptions: {
+					key: 'select_traval',
+					selectTitle: '旅游',
+					confirmText: '确定',
+					options: [],
+				},
+				workOptions: {
+					key: 'job',
+					selectTitle: '职业',
+					confirmText: '确定',
+					options: [],
+				},
+				wordOptions: {
+					key: 'info',
+					selectTitle: '格言',
+					confirmText: '确定',
+					options: [],
+				},
+				addressOptions: {
+					key: 'address',
+					selectTitle: '地址',
+					confirmText: '确定',
+					options: [{
+						id: '北京',
+						name: '北京'
+					},{
+						id: '海南',
+						name: '海南'
+					},{
+						id: '广西',
+						name: '广西'
+					},{
+						id: '广东',
+						name: '广东'
+					},{
+						id: '湖南',
+						name: '湖南'
+					},],
+				},
+				currentOptions: {},
+				userinfo: {
+					"userid": 0,
+					"head": "",
+					"nickname": "",
+					"phone": "",
+					"select_color": 0,
+					"select_color_name": "",
+					"job": "",
+					"birthday": "",
+					"address": "",
+					"info": "",
+					"job_name": "",
+					"info_name": "",
+					"select_sports": 0,
+					"select_sports_name": "",
+					"select_travel": 0,
+					"select_travel_name": "",
+					"times": 0,
+					"is_vip": 0,
+					"expire_time": ""
+				}
 			};
+		},
+		onLoad() {
+			this.getColorList()
+			this.getSportList()
+			this.getTripList()
+			this.getWordList()
+			this.getWorkList()
+		},
+		onShow() {
+			this.getUserInfo()
 		},
 		methods: {
 			back() {
@@ -59,6 +158,86 @@
 				uni.navigateTo({
 					url: '../userinfo/userinfo'
 				})
+			},
+			confirmInfo() {
+				setTimeout(() => uni.showToast({
+					title: '修改成功！'
+				}), 200)
+			},
+			showSelectColor(index) {
+				switch(index) {
+					case 1:
+						this.currentId = this.userinfo.select_color
+						this.currentOptions = this.colorOptions
+					break;
+					case 2:
+						this.currentId = this.userinfo.select_sports
+						this.currentOptions = this.sportOptions
+					break;
+					case 3:
+						this.currentId = this.userinfo.select_travel
+						this.currentOptions = this.tripOptions
+					break;
+					case 4:
+						this.currentId = this.userinfo.job
+						this.currentOptions = this.workOptions
+					break;
+					case 5:
+						this.currentId = this.userinfo.info
+						this.currentOptions = this.wordOptions
+					break;
+					case 6:
+						this.currentId = this.userinfo.address
+						this.currentOptions = this.addressOptions
+					break;
+				}
+				this.$refs.selector.show()
+			},
+			async selectConfirm(option) {
+				const user_id = uni.getStorageSync('uid')
+				const params = {
+					user_id,
+					[this.currentOptions.key]: option.id
+				}
+				const res = await request(editUser, params)
+				if (res.code === 200) {
+					this.getUserInfo()
+					uni.showToast({
+						title: '修改成功！'
+					})
+				}
+			},
+			async getColorList() {
+				const res = await this.getDropdownList(1)
+				this.colorOptions.options = res.result.data_list
+			},
+			async getSportList() {
+				const res = await this.getDropdownList(2)
+				this.sportOptions.options = res.result.data_list
+			},
+			async getTripList() {
+				const res = await this.getDropdownList(3)
+				this.tripOptions.options = res.result.data_list
+			},
+			async getWorkList() {
+				const res = await this.getDropdownList(4)
+				this.workOptions.options = res.result.data_list
+			},
+			async getWordList() {
+				const res = await this.getDropdownList(5)
+				this.wordOptions.options = res.result.data_list
+			},
+			async getDropdownList(sn) {
+				try{
+					return await request(dropdown, { sn })
+				}catch(e){
+					//TODO handle the exception
+				}
+			},
+			async getUserInfo() {
+				const user_id = uni.getStorageSync('uid')
+				const res = await request(userinfo, { user_id })
+				this.userinfo = res.result.user_info
 			}
 		}
 	}

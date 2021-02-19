@@ -1,8 +1,12 @@
 <template>
 	<view class="space">
 		<view class="title-wrapper">
-			<image class="title-left" src="../../../static/images/arrow-left.png" @click="back()"></image>
-			<text class="exam-title">我的空间</text>
+			<view class="title-left-wrapper">
+				<image class="title-left" src="../../../static/images/arrow-left.png" @click="back()"></image>
+				<text class="exam-title">我的空间</text>
+			</view>
+			<image v-if="is_secret === 1" class="lock" src="../../../static/images/lock.png" @click="tapLock"></image>
+			<image v-else class="lock" src="../../../static/images/lock-active.png" @click="tapLock"></image>
 		</view>
 		<view class="top-image">
 			<view class="user-info">
@@ -43,13 +47,44 @@
 				</view>
 			</view>
 		</view>
+		<selector
+			ref="selector"
+			:currentId="is_secret"
+			:title="selectorOptions.selectTitle" 
+			:options="selectorOptions.options"
+			:confirmText="selectorOptions.confirmText"
+			@confirm="selectConfirm"
+			>
+		</selector>
 	</view>
 </template>
 
 <script>
+	import Selector from '../../../components/selector.vue';
+	import request from '../../../utils/request.js'
+	import { myspace, editUser, spacelist } from '@/config/api'
 	export default {
+		components: {
+			Selector
+		},
 		data() {
 			return {
+				is_secret: 0,
+				selectorOptions: {
+					key: 'info',
+					selectTitle: '保密',
+					confirmText: '确定',
+					options: [{
+						id: 1,
+						name: '所有人可见'
+					}, {
+						id: 0,
+						name: '自己可见'
+					}],
+				},
+				space_info: {
+					
+				},
 				user_info: {
 					"userid": 6,
 					"head": "",
@@ -75,10 +110,37 @@
 		},
 		onLoad() {
 			this.user_info = uni.getStorageSync('user_info')
+			this.getSpaceInfo()
+			this.getSpaceList()
 		},
 		methods: {
 			back() {
 				uni.navigateBack()
+			},
+			async selectConfirm(option) {
+				const user_id = uni.getStorageSync('uid')
+				const params = {
+					user_id,
+					is_secret: option.id
+				}
+				const res = await request(editUser, params)
+				if (res.code === 200) {
+					this.getSpaceList()
+					uni.showToast({ title: '修改成功！' })
+				}
+			},
+			tapLock() {
+				this.$refs.selector.show()
+			},
+			async getSpaceInfo() {
+				const user_id = uni.getStorageSync('uid')
+				const res = await request(myspace, { user_id, sn: 1 })
+				console.log(res)
+			},
+			async getSpaceList() {
+				const user_id = uni.getStorageSync('uid')
+				const res = await request(spacelist, { user_id })
+				this.is_secret = res.result.user_info.is_secret
 			}
 		}
 	}
@@ -98,20 +160,27 @@
 			flex-direction: row;
 			align-items: center;
 			margin-top: 107upx;
-			justify-content: flex-start;
-
-			.title-left {
-				width: 40upx;
-				height: 40upx;
+			justify-content: space-between;
+			.lock {
+				width: 48upx;
+				height: 48upx;
 			}
-
-			.exam-title {
-				margin-left: 13upx;
-				font-size: 40upx;
-				font-family: PingFang SC;
-				font-weight: bold;
-				line-height: 52upx;
-				color: #282828;
+			.title-left-wrapper {
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+				.title-left {
+					width: 40upx;
+					height: 40upx;
+				}
+				.exam-title {
+					margin-left: 13upx;
+					font-size: 40upx;
+					font-family: PingFang SC;
+					font-weight: bold;
+					line-height: 52upx;
+					color: #282828;
+				}
 			}
 		}
 

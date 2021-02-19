@@ -82,6 +82,7 @@
 		}, {
 			"path": "pages/my/settings/settings",
 			"style": {
+				"disableScroll": true,
 				"navigationBarTitleText": "",
 				"enablePullDownRefresh": false,
 				"navigationStyle": "custom",
@@ -120,6 +121,41 @@
 				"navigationBarTextStyle": "black"
 			}
 
+		}, {
+			"path": "pages/my/hobby/hobby",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black"
+			}
+		}, {
+			"path": "pages/my/matchRecord/matchRecord",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black"
+			}
+
+		}, {
+			"path": "pages/match/doMAtch/doMAtch",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black",
+				"disableScroll": true
+			}
+		}, {
+			"path": "pages/my/member/member",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false,
+				"disableScroll": true,
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black"
+			}
 		}
 	],
 	"tabBar": {
@@ -129,18 +165,18 @@
 		"color": "#282828",
 		"list": [{
 			"pagePath": "pages/index/index",
-			"selectedIconPath": "static/images/ico04.png",
-			"iconPath": "static/images/ico01.png",
+			"selectedIconPath": "static/images/index-active.png",
+			"iconPath": "static/images/index-inactive.png",
 			"text": "首页"
 		}, {
 			"pagePath": "pages/match/match/match",
-			"selectedIconPath": "static/images/ico02.png",
-			"iconPath": "static/images/ico05.png",
+			"selectedIconPath": "static/images/match-active.png",
+			"iconPath": "static/images/match-inactive.png",
 			"text": "匹配"
 		}, {
 			"pagePath": "pages/my/user/user",
-			"selectedIconPath": "static/images/ico03.png",
-			"iconPath": "static/images/ico06.png",
+			"selectedIconPath": "static/images/user-active.png",
+			"iconPath": "static/images/user-inactive.png",
 			"text": "我的"
 		}]
 	}
