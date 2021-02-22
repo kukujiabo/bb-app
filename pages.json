@@ -156,6 +156,13 @@
 				"navigationStyle": "custom",
 				"navigationBarTextStyle": "black"
 			}
+		}, {
+			"path": "pages/auth/forget/forget",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
 		}
 	],
 	"tabBar": {

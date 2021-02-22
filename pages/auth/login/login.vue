@@ -22,7 +22,7 @@
 					<image v-else class="forget-icon" src="@/static/images/ico05@2x.png" mode="" @click="switchRecord(true)"></image>
 					<text>记住账号</text>
 				</view>
-				<view class="remember">
+				<view class="remember" @click="toForget">
 					<text>忘记密码</text>
 				</view>
 			</view>
@@ -67,6 +67,11 @@
 			},
 			switchRecord(record) {
 				this.record = record
+			},
+			toForget() {
+				uni.navigateTo({
+					url: '../forget/forget'
+				})
 			},
 			async login() {
 				if (!this.phone) {

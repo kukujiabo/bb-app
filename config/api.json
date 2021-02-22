@@ -11,5 +11,7 @@
 	"dropdown": "/mallapi/index/getuserdropdown",
 	"editUser": "/mallapi/user/edit",
 	"myspace": "/mallapi/user/getprodetail",
-	"spacelist": "/mallapi/user/zone"
+	"spacelist": "/mallapi/user/zone",
+	"submitText": "/mallapi/question/setexam",
+	"forget": "/mallapi/login/forgetpassword"
 }

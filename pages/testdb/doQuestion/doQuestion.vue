@@ -12,10 +12,10 @@
 		</view>
 		<view
 			class="match-condition hobby"
-			:class="{ active: index === q.id }"
-			@click="switchType(q.id)"
-			v-for="q in currentQuestion.answer_list"
 			:key="q.id"
+			:class="{ active: index === q.id }"
+			v-for="q in currentQuestion.answer_list"
+			@click="switchType(q.id)"
 			>
 			<text>{{q.title}}</text>
 		</view>
@@ -31,7 +31,7 @@
 
 <script>
 	import request from '../../../utils/request.js';
-	import { questionList } from '@/config/api.json';
+	import { questionList, submitText } from '@/config/api.json';
 	export default {
 		data() {
 			return {
@@ -78,21 +78,33 @@
 					
 				})
 			},
-			next() {
-				if (this.currentIndex < this.maxQuestionNum - 1) {
-					this.currentIndex++
-					this.currentQuestion = this.data_list[this.currentIndex]
-					this.index = 0
-					this.answers.push({ id: this.currentQuestion.id, id: index})
+			async next() {
+				if (this.index === 0) {
+					uni.showToast({
+						icon: 'none',
+						title: '请选择答案!'
+					})
+					return
 				} else {
+					this.answers.push({ id: this.currentQuestion.id, aid: this.index })
+					this.index = 0
+				}
+				if (this.currentIndex < this.maxQuestionNum - 1) {
+					this.currentIndex++;
+					this.currentQuestion = this.data_list[this.currentIndex]
+				} else {
+					const answerResults = this.answers.map(answer => `${answer.id}:${answer.aid}`)
+					const sn = answerResults.join(',')
 					uni.showLoading({
 						title: '测试完成...',
 						mask: true
-					})
+					}) 
+					const user_id = uni.getStorageSync('uid')
+					const result = await request(submitText, { sn, user_id, cid: this.cid }, {})
+					uni.hideLoading()
 					setTimeout(() => {
-						uni.hideLoading()
 						uni.redirectTo({ url: '/pages/match/doMAtch/doMAtch' })
-					}, 1000)
+					}, 500)
 				}
 			}
 		}
