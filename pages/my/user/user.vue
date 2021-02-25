@@ -47,7 +47,7 @@
 			<view class="diliver-list-item" v-for="space in new_space" :key="space.id">
 				<image class="diliver-item-image" :src="space.thumb"></image>
 				<view class="diliver-list-item-text">
-					<text class="diliver-list-item-text-title">{{space.title}}</text>
+					<!-- <text class="diliver-list-item-text-title">{{space.desc}}</text> -->
 					<text class="diliver-list-item-text-desc">{{space.desc}}</text>
 				</view>
 			</view>
@@ -104,11 +104,12 @@
 			}
 		},
 		onLoad() {
+
+		},
+		onShow() {
 			this.nickname = uni.getStorageSync('nickname')
 			this.phone = uni.getStorageSync('phone')
 			this.getUserInfo()
-		},
-		onShow() {
 			this.getUser()
 		},
 		methods: {
@@ -127,6 +128,7 @@
 				const res = await request(user, { user_id })
 				const result = res.result
 				this.numbers = result.numbers
+				this.new_space = result.new_space
 			},
 			async getUser() {
 				const user_id = uni.getStorageSync('uid')

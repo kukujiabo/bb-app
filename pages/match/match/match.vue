@@ -23,6 +23,8 @@
 </template>
 
 <script>
+	import request from '../../../utils/request.js'
+	import { addMatch } from '@/config/api'
 	export default {
 		data() {
 			return {
@@ -33,10 +35,21 @@
 			switchType(index) {
 				this.index = index
 			},
-			toDoMatch() {
-				uni.navigateTo({
-					url: '/pages/match/doMAtch/doMAtch?index=' + this.index
-				})
+			async toDoMatch() {
+				uni.showLoading()
+				const user_id = uni.getStorageSync('uid')
+				const res = await request(addMatch, { user_id, type: this.index - 1 })
+				uni.hideLoading()
+				if (res.code === 200) {
+					uni.navigateTo({
+						url: '/pages/match/doMAtch/doMAtch?index=' + this.index
+					})
+				} else {
+					uni.showToast({
+						icon: 'none',
+						title: '网络错误,请重试!'
+					})
+				}
 			}
 		}
 	}

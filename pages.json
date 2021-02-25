@@ -161,8 +161,45 @@
 			"style": {
 				"navigationBarTitleText": "",
 				"enablePullDownRefresh": false,
+				"navigationBarTextStyle": "black",
 				"navigationStyle": "custom"
 			}
+		}, {
+			"path": "pages/my/resetPassword/resetPassword",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false,
+				"navigationBarTextStyle": "black",
+				"navigationStyle": "custom"
+			}
+
+		}, {
+			"path": "pages/my/newSpace/newSpace",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false,
+				"navigationBarTextStyle": "black",
+				"navigationStyle": "custom"
+			}
+
+		}, {
+			"path": "pages/my/editPhone/editPhone",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false,
+				"navigationBarTextStyle": "black",
+				"navigationStyle": "custom"
+			}
+
+		}, {
+			"path": "pages/my/changePhone/changePhone",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false,
+				"navigationBarTextStyle": "black",
+				"navigationStyle": "custom"
+			}
+
 		}
 	],
 	"tabBar": {

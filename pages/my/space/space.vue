@@ -8,44 +8,46 @@
 			<image v-if="is_secret === 1" class="lock" src="../../../static/images/lock.png" @click="tapLock"></image>
 			<image v-else class="lock" src="../../../static/images/lock-active.png" @click="tapLock"></image>
 		</view>
-		<view class="top-image">
-			<view class="user-info">
-				<image class="user-info-head" :src="user_info.head"></image>
-				<text class="user-info-nickname">{{user_info.nickname}}</text>
-			</view>
-			<view class="top-title">
-				<text class="top-title-text">我想和你去巴黎旅游</text>
-			</view>
-			<view class="top-image-wrapper">
-				<image class="top-image-image"></image>
-			</view>
-			<view class="bottom">
-				<text class="bottom-text">昨天</text>
-				<view class="thumb">
-					<image class="thumb-image" src="../../../static/images/thumb.png"></image>
-					<text class="thumb-text">2142</text>
+		<view v-for="space in new_space" :key="space.id">
+			<view class="top-image" v-if="space.imgs.length === 1">
+				<view class="user-info">
+					<image class="user-info-head" :src="user_info.head"></image>
+					<text class="user-info-nickname">{{user_info.nickname}}</text>
+				</view>
+				<view class="top-title">
+					<text class="top-title-text">{{space.desc}}</text>
+				</view>
+				<view class="top-image-wrapper">
+					<image class="top-image-image" :src="space.imgs[0]"></image>
+				</view>
+				<view class="bottom">
+					<text class="bottom-text">{{space.publish_time}}</text>
+					<view class="thumb">
+						<image class="thumb-image" src="../../../static/images/thumb.png"></image>
+						<text class="thumb-text">{{space.likes}}</text>
+					</view>
 				</view>
 			</view>
-		</view>
-		<view class="top-image">
-			<view class="user-info">
-				<image class="user-info-head" :src="user_info.head"></image>
-				<text class="user-info-nickname">{{user_info.nickname}}</text>
-			</view>
-			<view class="top-title">
-				<text class="top-title-text">我想和你去巴黎旅游</text>
-			</view>
-			<view class="top-image-wrapper">
-				<image class="small-image-image"></image>
-				<image class="small-image-image"></image>
-			</view>
-			<view class="bottom">
-				<text class="bottom-text">昨天</text>
-				<view class="thumb">
-					<image class="thumb-image" src="../../../static/images/thumb.png"></image>
-					<text class="thumb-text">2142</text>
+			<view class="top-image" v-else>
+				<view class="user-info">
+					<image class="user-info-head" :src="user_info.head"></image>
+					<text class="user-info-nickname">{{user_info.nickname}}</text>
+				</view>
+				<view class="top-title">
+					<text class="top-title-text">{{space.desc}}</text>
+				</view>
+				<view class="top-image-wrapper">
+					<image v-for="img in space.imgs" :key="img" class="small-image-image" :src="img"></image>
+				</view>
+				<view class="bottom">
+					<text class="bottom-text">{{space.publish_time}}</text>
+					<view class="thumb">
+						<image class="thumb-image" src="../../../static/images/thumb.png"></image>
+						<text class="thumb-text">{{space.likes}}</text>
+					</view>
 				</view>
 			</view>
+			<view style="margin-top:100upx"></view>
 		</view>
 		<selector
 			ref="selector"
@@ -56,6 +58,7 @@
 			@confirm="selectConfirm"
 			>
 		</selector>
+		<image class="add-new" src="../../../static/plus.png" @click="toAddNew"></image>
 	</view>
 </template>
 
@@ -105,7 +108,8 @@
 					"times": 0,
 					"is_vip": 0,
 					"expire_time": ""
-				}
+				},
+				new_space: []
 			};
 		},
 		onLoad() {
@@ -117,6 +121,12 @@
 			back() {
 				uni.navigateBack()
 			},
+			toAddNew() {
+				uni.navigateTo({
+					url: '../newSpace/newSpace'
+				})
+			},
+			
 			async selectConfirm(option) {
 				const user_id = uni.getStorageSync('uid')
 				const params = {
@@ -140,6 +150,7 @@
 			async getSpaceList() {
 				const user_id = uni.getStorageSync('uid')
 				const res = await request(spacelist, { user_id })
+				this.new_space = res.result.new_space
 				this.is_secret = res.result.user_info.is_secret
 			}
 		}
@@ -154,7 +165,14 @@
 		background-color: #f6f6f6;
 		box-sizing: border-box;
 		padding: 0 40upx;
-
+		.add-new {
+			position: fixed;
+			bottom: 100upx;
+			right: 50upx;
+			width: 100upx;
+			height: 100upx;
+			border-radius: 50upx;
+		}
 		.title-wrapper {
 			display: flex;
 			flex-direction: row;

@@ -2,7 +2,7 @@
 	<view class="register">
 		<view class="title-wrapper">
 			<image class="title-left" src="../../../static/images/arrow-left.png" @click="back()"></image>
-			<text class="exam-title">忘记密码</text>
+			<text class="exam-title">重置密码</text>
 		</view>
 		<view class="form-group">
 			<view class="checkcode-title">

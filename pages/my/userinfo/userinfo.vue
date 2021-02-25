@@ -15,7 +15,7 @@
 					<image class="toleft" src="../../../static/images/ico07@2x.png"></image>
 				</view>
 			</view>
-			<view class="content-item" @click="touserinfo">
+			<view class="content-item" @click="toeditphone">
 				<text class="content-title">手机</text>
 				<view class="content-tail">
 					<text class="content-tail-text">{{getPhone}}</text>
@@ -28,7 +28,7 @@
 					<image class="toleft" src="../../../static/images/ico07@2x.png"></image>
 				</view>
 			</view>
-			<view class="content-item" @click="touserinfo">
+			<view class="content-item" @click="editPassword">
 				<text class="content-title">登录密码</text>
 				<view class="content-tail">
 					<image class="toleft" src="../../../static/images/ico07@2x.png"></image>
@@ -80,7 +80,7 @@
 				}
 			};
 		},
-		onLoad() {
+		onShow() {
 			this.user_info = uni.getStorageSync('user_info')
 		},
 		methods: {
@@ -93,6 +93,16 @@
 			editNickname() {
 				uni.navigateTo({
 					url: '../editText/editText?key=nickname'
+				})
+			},
+			editPassword() {
+				uni.navigateTo({
+					url: '../resetPassword/resetPassword'
+				})
+			},
+			toeditphone() {
+				uni.navigateTo({
+					url: '../editPhone/editPhone'
 				})
 			},
 			editHeader() {

@@ -44,7 +44,14 @@
             "ios" : {},
             /* SDK配置 */
             "sdkConfigs" : {
-                "ad" : {}
+                "ad" : {},
+                "payment" : {
+                    "weixin" : {
+                        "__platform__" : [ "ios", "android" ],
+                        "appid" : "com.bbapp.chat",
+                        "UniversalLinks" : ""
+                    }
+                }
             },
             "icons" : {
                 "android" : {

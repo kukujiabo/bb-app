@@ -4,7 +4,7 @@
 		<view class="bottom-selector">
 			<view class="b-s-title">
 				<text class="b-s-title-text">{{title}}</text>
-				<image class="b-s-close" src="../static/images/close.png"></image>
+				<image class="b-s-close" src="../static/images/close.png" @tap="hide"></image>
 			</view>
 			<view
 				class="b-s-options"
@@ -39,7 +39,7 @@
 			},
 			currentId: {
 				type: Number,
-				default: ''
+				default: 0
 			}
 		},
 		created() {
@@ -119,7 +119,7 @@
 				}
 				.b-s-close {
 					position: absolute;
-					right: 35upx;
+					right: 0upx;
 					top: 44upx;
 					width: 40upx;
 					height: 40upx;

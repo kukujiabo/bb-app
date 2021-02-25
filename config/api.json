@@ -13,5 +13,10 @@
 	"myspace": "/mallapi/user/getprodetail",
 	"spacelist": "/mallapi/user/zone",
 	"submitText": "/mallapi/question/setexam",
-	"forget": "/mallapi/login/forgetpassword"
+	"forget": "/mallapi/login/forgetpassword",
+	"addMatch": "/mallapi/match/index",
+	"getMatch": "/mallapi/match/getpartner",
+	"requestMatch": "/mallapi/match/setpartnerapply",
+	"addMoment": "/mallapi/user/setproject",
+	"changePhone": "/mallapi/login/bindphone"
 }

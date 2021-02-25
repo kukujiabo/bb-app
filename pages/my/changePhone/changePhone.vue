@@ -2,11 +2,11 @@
 	<view class="register">
 		<view class="title-wrapper">
 			<image class="title-left" src="../../../static/images/arrow-left.png" @click="back()"></image>
-			<text class="exam-title">忘记密码</text>
+			<text class="exam-title">更换手机号</text>
 		</view>
 		<view class="form-group">
 			<view class="checkcode-title">
-				<text>短信验证</text>
+				<text>短信验证验证</text>
 			</view>
 			<view class="checkcode-phone">
 
@@ -21,15 +21,9 @@
 						<text>{{sendText}}</text>
 					</view>
 				</view>
-				<view class="form-group-item-input">
-					<input class="input-content" placeholder="请输入密码" type="password" placeholder-style="color:#DDDDDD" v-model="password" />
-				</view>
-				<view class="form-group-item-input">
-					<input class="input-content" placeholder="重复密码" type="password" placeholder-style="color:#DDDDDD" v-model="repassword" />
-				</view>
 				<view class="form-submit">
-					<view class="submit-btn" @click="resetPassword()">
-						<text class="submit-btn-text">重设密码</text>
+					<view class="submit-btn" @click="resetPhone()">
+						<text class="submit-btn-text">更换手机号</text>
 					</view>
 				</view>
 			</view>
@@ -40,7 +34,7 @@
 <script>
 	import request from '@/utils/request.js'
 	import {
-		sendCode, forget
+		changePhone
 	} from '@/config/api'
 	export default {
 		data() {
@@ -51,8 +45,6 @@
 				sendText: '发送验证码',
 				count: 30,
 				sending: false,
-				password: '',
-				repassword: ''
 			};
 		},
 		computed: {
@@ -70,21 +62,22 @@
 			this.nickname = options.nickname
 		},
 		methods: {
-			async resetPassword() {
+			async resetPhone() {
 				uni.showLoading({
 					mask: true
 				})
-				const res = await request(forget, { 
+				const user_id = uni.getStorageSync('uid')
+				const res = await request(changePhone, { 
+					user_id,
 					phone: this.phone,
 					verify: this.verify,
-					password: this.password,
-					repassword: this.repassword
 				})
 				uni.hideLoading()
 				if (res.code === 200) {
 					uni.showToast({
 						title: '修改成功!'
 					})
+					uni.setStorageSync('phone', this.phone)
 					setTimeout(() => this.back(), 1000)
 				} else {
 					uni.showModal({
@@ -111,7 +104,7 @@
 					this.sendText = '发送中...'
 					const res = await request(sendCode, {
 						phone: this.phone,
-						type: 'forget'
+						type: 'bind'
 					}, {})
 					this.sending = false
 					if (res.code === 200) {
