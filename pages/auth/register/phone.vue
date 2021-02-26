@@ -107,7 +107,7 @@
 					font-size: 30upx;
 					font-family: PingFang SC;
 					font-weight: 400;
-					line-height: 50px;
+					line-height: 50upx;
 					opacity: 1;
 				}
 			}

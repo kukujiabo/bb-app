@@ -18,5 +18,6 @@
 	"getMatch": "/mallapi/match/getpartner",
 	"requestMatch": "/mallapi/match/setpartnerapply",
 	"addMoment": "/mallapi/user/setproject",
-	"changePhone": "/mallapi/login/bindphone"
+	"changePhone": "/mallapi/login/bindphone",
+	"getSpaceDetail": "/mallapi/user/getprodetail"
 }

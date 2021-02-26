@@ -103,7 +103,7 @@
 					const result = await request(submitText, { sn, user_id, cid: this.cid }, {})
 					uni.hideLoading()
 					setTimeout(() => {
-						uni.redirectTo({ url: '/pages/match/doMAtch/doMAtch' })
+						uni.redirectTo({ url: '/pages/match/doMAtch/doMAtch?index=1' })
 					}, 500)
 				}
 			}

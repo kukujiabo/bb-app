@@ -44,10 +44,14 @@
 			<view class="empty" v-if="new_space.length === 0">
 				<text>还没有发布哦～</text>
 			</view>
-			<view class="diliver-list-item" v-for="space in new_space" :key="space.id">
+			<view
+				class="diliver-list-item"
+				v-for="space in new_space"
+				:key="space.id"
+				@click="toDetail(space.id)"
+				>
 				<image class="diliver-item-image" :src="space.thumb"></image>
 				<view class="diliver-list-item-text">
-					<!-- <text class="diliver-list-item-text-title">{{space.desc}}</text> -->
 					<text class="diliver-list-item-text-desc">{{space.desc}}</text>
 				</view>
 			</view>
@@ -101,7 +105,7 @@
 				} else {
 					return ''
 				}
-			}
+			},
 		},
 		onLoad() {
 
@@ -113,6 +117,11 @@
 			this.getUser()
 		},
 		methods: {
+			toDetail(sn) {
+				uni.navigateTo({
+					url: '../spaceDetail/spaceDetail?sn=' + sn
+				})
+			},
 			toHobby() {
 				uni.navigateTo({
 					url: '/pages/my/hobby/hobby'

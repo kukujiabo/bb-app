@@ -41,15 +41,20 @@
 				<text class="page-list-item-join">参与{{test.numbers}}w</text>
 			</view>
 		</view>
+		<match-notice></match-notice>
 	</view>
 </template>
 
 <script>
 	import request from '../../utils/request.js';
+	import MatchNotice from '../../components/matchNotice.vue'
 	import {
 		index
 	} from '@/config/api';
 	export default {
+		components: {
+			MatchNotice
+		},
 		data() {
 			return {
 				title: 'Hello',

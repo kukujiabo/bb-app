@@ -71,6 +71,34 @@
 		},
 		methods: {
 			async resetPassword() {
+				if (!this.phone) {
+					uni.showToast({
+						icon: 'none',
+						title: '手机号必须填写!'
+					})
+					return
+				}
+				if (!this.verify) {
+					uni.showToast({
+						icon: 'none',
+						title: '验证码必须填写'
+					})
+					return 
+				}
+				if (!this.password && this.password.length < 6) {
+					uni.showToast({
+						icon: 'none',
+						title: '密码不得少于6位!'
+					})
+					return
+				}
+				if (this.password !== this.repassword) {
+					uni.showToast({
+						icon: 'none',
+						title: '两次输入密码不一致'
+					})
+					return
+				}
 				uni.showLoading({
 					mask: true
 				})

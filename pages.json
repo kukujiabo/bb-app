@@ -200,6 +200,15 @@
 				"navigationStyle": "custom"
 			}
 
+		}, {
+			"path": "pages/my/spaceDetail/spaceDetail",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false,
+				"navigationBarTextStyle": "black",
+				"navigationStyle": "custom"
+			}
+
 		}
 	],
 	"tabBar": {

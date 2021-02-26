@@ -5,6 +5,8 @@ Vue.config.productionTip = false
 
 App.mpType = 'app'
 
+Vue.prototype.eventBus = new Vue()
+
 const app = new Vue({
     ...App
 })
