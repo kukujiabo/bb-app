@@ -1,13 +1,12 @@
 <script>
 	import request from 'utils/request.js'
-	import { getMatch } from '@/config/api'
+	import { getApply } from '@/config/api'
 	export default {
 		onLaunch: function() {
 			const user_id = uni.getStorageSync('uid')
 			if (user_id) {
 				setInterval(async () => {
-					const res = await request(getMatch, { user_id }, {}, 'get')
-					console.log(this.eventBus)
+					const res = await request(getApply, { user_id }, {}, 'get')
 					if (res.result.match_id > 0) {
 						this.eventBus.$emit('matched', res.result)
 					}

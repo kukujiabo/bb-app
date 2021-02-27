@@ -121,7 +121,6 @@
 						title: '申请已发送'
 					})
 				} catch (e) {
-					console.log(e, '---')
 					uni.hideLoading()
 					uni.showModal({
 						title: '未开通会员',
@@ -139,7 +138,7 @@
 									url: '../../my/member/member'
 								})
 							} else {
-								console.log('----')
+								
 							}
 						}
 					})

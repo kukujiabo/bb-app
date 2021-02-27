@@ -8,17 +8,27 @@
 </template>
 
 <script>
+	import { matchList } from '@/config/api';
+	import request from '../../../utils/request.js'
 	export default {
 		data() {
 			return {
 				
 			};
 		},
+		onLoad() {
+			this.getMatchedList()
+		},
 		methods: {
 			back() {
 				uni.navigateBack({
 					
 				})
+			},
+			async getMatchedList() {
+				const user_id = uni.getStorageSync('uid')
+				const res = await request(matchList, { user_id }, {}, 'get')
+				console.log(res)
 			}
 		}
 	}
