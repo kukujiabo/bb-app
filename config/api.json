@@ -21,5 +21,10 @@
 	"changePhone": "/mallapi/login/bindphone",
 	"getSpaceDetail": "/mallapi/user/getprodetail",
 	"matchList": "/mallapi/user/matched",
-	"getApply": "/mallapi/user/getotherapply"
+	"getApply": "/mallapi/match/getpartnerapply",
+	"dealApply": "/mallapi/match/dealpartnerapply",
+	"responseCheck": "/mallapi/match/getpartnerperssion",
+	"vipList": "/mallapi/pay/getvipprice",
+	"pay": "/mallapi/pay/confirmviporder",
+	"getPayData": "/mallapi/vipay/index"
 }

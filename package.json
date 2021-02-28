@@ -1,5 +1,7 @@
 {
   "dependencies": {
-    "js-md5": "^0.7.3"
+    "js-md5": "^0.7.3",
+    "tim-js-sdk": "^2.9.3",
+    "tim-upload-plugin": "^1.0.1"
   }
 }

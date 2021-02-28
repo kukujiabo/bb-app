@@ -41,7 +41,6 @@
 				<text class="page-list-item-join">参与{{test.numbers}}w</text>
 			</view>
 		</view>
-		<match-notice></match-notice>
 	</view>
 </template>
 
@@ -65,6 +64,9 @@
 		},
 		onLoad() {
 			this.getIndexData()
+			this.eventBus.$on('matched', () => {
+				// this.setData
+			})
 		},
 		methods: {
 			async getIndexData() {

@@ -18,26 +18,47 @@
 			<view class="match-time-wrapper">
 				<text class="match-time-text">{{matchInfo.period_time[0]}}-{{matchInfo.period_time[1]}}</text>
 			</view>
-			<view class="apply-date" @click="dopay">
-				<text class="apply-date-text">申请交往</text>
+			<view v-if="!matchSuccess">
+				<view class="apply-date" @click="dopay">
+					<text class="apply-date-text">申请交往</text>
+				</view>
+				<view class="re-date" @click="rematch">
+					<text class="re-date-text">重新匹配</text>
+				</view>
 			</view>
-			<view class="re-date" @click="rematch">
-				<text class="re-date-text">重新匹配</text>
+			<view v-else>
+				<view class="apply-date" @click="im">
+					<text class="apply-date-text">语音/视频</text>
+				</view>
+				<view class="re-date" @click="chat">
+					<text class="re-date-text">聊天</text>
+				</view>
 			</view>
 		</view>
 		<view v-else class="empty">
 			<text>暂无匹配结果...</text>
 		</view>
+		<match-notice ref="matchNotice" :name="applyInfo.nickname" :avatar="applyInfo.head" @confirm="confirmApply" @reject="rejectApply"></match-notice>
 	</view>
 </template>
 
 <script>
 	import {
 		getMatch,
-		requestMatch
+		requestMatch,
+		getApply,
+		dealApply,
+		responseCheck
 	} from '@/config/api'
 	import request from '../../../utils/request.js'
+	import MatchNotice from '../../../components/matchNotice.vue'
+
+	let handler = null,
+		handler2 = null
 	export default {
+		components: {
+			MatchNotice
+		},
 		data() {
 			return {
 				status: '恭喜配对成功',
@@ -78,14 +99,93 @@
 						}
 					},
 					period_time: []
-				}
+				},
+				applyInfo: {
+					"nickname": "",
+					"head": ""
+				},
+				matchSuccess: false
 			};
 		},
 		onLoad() {
 			this.userinfo = uni.getStorageSync('user_info')
 			this.getMatch()
+			const user_id = uni.getStorageSync('uid')
+			if (user_id) {
+				handler = setInterval(async () => {
+					const res = await request(getApply, {
+						user_id,
+						match_id: this.matchInfo.match_id
+					}, {}, 'get')
+					this.applyInfo = res.result.apply_info
+					if (this.applyInfo.nickname) {
+						this.$refs.matchNotice.showNotice()
+					}
+				}, 1500)
+				handler2 = setInterval(async () => {
+					const res = await request(responseCheck, {
+						user_id,
+						match_id: this.matchInfo.match_id
+					}, {}, 'get')
+					if (res.result.apply_status.status === 2) {
+						uni.showToast({
+							icon: 'none',
+							title: '匹配成功，可以开始聊天了！'
+						})
+						clearInterval(handler2)
+						this.matchSuccess = true
+					} else if (res.result.apply_status.status === 0) {
+						uni.showToast({
+							icon: 'none',
+							title: '对方已拒绝，请重新匹配'
+						})
+						clearInterval(handler2)
+						this.matchSuccess = false
+						setTimeout(() => uni.navigateBack({
+
+						}), 1500)
+					}
+				}, 1500)
+			}
+		},
+		onUnload() {
+			clearInterval(handler)
+			clearInterval(handler2)
 		},
 		methods: {
+			chat() {
+				
+			},
+			im() {
+				
+			},
+			async confirmApply() {
+				const user_id = uni.getStorageSync('uid')
+				const res = await request(dealApply, {
+					user_id,
+					match_id: this.matchInfo.match_id,
+					type: 1
+				})
+				this.matchSuccess = true
+				uni.showToast({
+					title: '您已同意申请！'
+				})
+			},
+			async rejectApply() {
+				const user_id = uni.getStorageSync('uid')
+				const res = await request(dealApply, {
+					user_id,
+					match_id: this.matchInfo.match_id,
+					type: 0
+				})
+				uni.showToast({
+					icon: 'none',
+					title: '您已拒绝申请，请重新匹配'
+				})
+				setTimeout(() => uni.navigateBack({
+					
+				}), 1000)
+			},
 			async getMatch() {
 				try {
 					uni.showLoading()
@@ -138,7 +238,7 @@
 									url: '../../my/member/member'
 								})
 							} else {
-								
+
 							}
 						}
 					})
@@ -160,6 +260,7 @@
 		overflow: auto;
 		padding: 0 30upx;
 		box-sizing: border-box;
+
 		.empty {
 			width: 100%;
 			height: 400upx;
@@ -170,6 +271,7 @@
 			color: #999;
 			font-size: 18px;
 		}
+
 		.title-wrapper {
 			display: flex;
 			flex-direction: row;
@@ -285,9 +387,8 @@
 			flex-direction: row;
 			align-items: center;
 			justify-content: center;
-
+			padding: 0;
 			.apply-date-text {
-				width: 144upx;
 				height: 50upx;
 				font-size: 36upx;
 				font-family: PingFang SC;
@@ -311,7 +412,6 @@
 			justify-content: center;
 
 			.re-date-text {
-				width: 144upx;
 				height: 50upx;
 				font-size: 36upx;
 				font-family: PingFang SC;
