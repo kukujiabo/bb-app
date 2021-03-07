@@ -11,7 +11,7 @@
 				</view>
 				<view class="time">
 					<text>{{d.start_time}}</text>
-					<text>-</text>
+					<text>~</text>
 					<text>{{d.end_time}}</text>
 				</view>
 				<view class="match-zoom">

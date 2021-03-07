@@ -209,6 +209,15 @@
 				"navigationStyle": "custom"
 			}
 
+		}, {
+			"path": "pages/checkboss/checkboss",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false,
+				"navigationBarTextStyle": "black",
+				"navigationStyle": "custom"
+			}
+
 		}
 	],
 	"tabBar": {

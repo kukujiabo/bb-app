@@ -26,5 +26,6 @@
 	"responseCheck": "/mallapi/match/getpartnerperssion",
 	"vipList": "/mallapi/pay/getvipprice",
 	"pay": "/mallapi/pay/confirmviporder",
-	"getPayData": "/mallapi/vipay/index"
+	"getPayData": "/mallapi/vipay/index",
+	"getTitle": "/mallapi/index/getattrtitle"
 }

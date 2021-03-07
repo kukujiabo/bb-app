@@ -1,7 +1,7 @@
 <template>
 	<view class="index">
 		<view class="title-wrapper">
-			<text class="title">首页</text>
+			<text class="title">{{app_index_title1}}</text>
 		</view>
 		<view class="banner-wrapper">
 			<swiper class="banner-ads">
@@ -9,9 +9,9 @@
 					<image class="banner" :src="ad.img"></image>
 				</swiper-item>
 			</swiper>
-		</view>
+		</view> 
 		<view class="match-title-wrapper">
-			<text class="title">匹配动态</text>
+			<text class="title">{{app_index_title2}}</text>
 		</view>
 		<view class="match-list">
 			<view v-if="match_group.length === 0" class="empty-tips">
@@ -19,16 +19,16 @@
 			</view>
 			<view class="match-item" v-for="mg in match_group" :key="mg.id">
 				<view class="match-image-wrapper">
-					<image class="match-first" :src="member.head"></image>
-					<image class="match-second" :src="person.head"></image>
+					<image class="match-first" :src="mg.member.head"></image>
+					<image class="match-second" :src="mg.person.head"></image>
 				</view>
 				<view class="match-name">
-					<text class="match-name-text">{{member.nickname}} -- {{person.nickname}}</text>
+					<text class="match-name-text">{{mg.member.nickname}} -- {{mg.person.nickname}}</text>
 				</view>
 			</view>
 		</view>
-		<view class="test-title-wrapper">
-			<text class="test-title">题库更新</text>
+		<view class="test-title-wrapper" style="padding: 0 40upx">
+			<text class="test-title">{{app_index_title3}}</text>
 			<view class="more-wrapper" @click="toMore">
 				<text class="more-text">更多</text>
 				<image class="more-image" src="../../static/images/ico07@2x.png"></image>
@@ -37,18 +37,20 @@
 		<view class="test-wrapper">
 			<view class="page-list-item" v-for="test in question_list" :key="test.id" @click="toDoQuestion(test.id)">
 				<text class="page-list-item-title">{{test.title}}</text>
-				<text class="page-list-item-test">共{{test.question_num}}题目</text>
-				<text class="page-list-item-join">参与{{test.numbers}}w</text>
+				<view class="page-list-item-join">
+					<view class="page-list-item-join-mask"></view>
+					<text>{{test.numbers}}a人在线</text>
+				</view>
 			</view>
 		</view>
 	</view>
 </template>
-
 <script>
 	import request from '../../utils/request.js';
 	import MatchNotice from '../../components/matchNotice.vue'
 	import {
-		index
+		index,
+		getTitle
 	} from '@/config/api';
 	export default {
 		components: {
@@ -59,10 +61,14 @@
 				title: 'Hello',
 				ad_list: [],
 				match_group: [],
-				question_list: []
+				question_list: [],
+				app_index_title1: "",
+				app_index_title2: "",
+				app_index_title3: "",
 			}
 		},
 		onLoad() {
+			this.getTitle()
 			this.getIndexData()
 			this.eventBus.$on('matched', () => {
 				// this.setData
@@ -89,18 +95,30 @@
 				uni.navigateTo({
 					url: '../testdb/doQuestion/doQuestion?id=' + id
 				})
+			},
+			async getTitle() {
+				const res = await request(getTitle, {})
+				this.app_index_title1 = res.result.data_list.app_index_title1
+				this.app_index_title2 = res.result.data_list.app_index_title2
+				this.app_index_title3 = res.result.data_list.app_index_title3
 			}
 		}
 	}
 </script>
 
 <style lang="scss">
+	::-webkit-scrollbar {
+		display: none;
+		/* Chrome Safari */
+	}
+
 	.index {
-		padding: 0 40upx 60upx;
+		padding: 0 0 60upx 0;
 		overflow: auto;
 		background-color: #F6f6f6;
 		min-height: 100vh;
-
+		display: flex;
+		flex-direction: column;
 		.title-wrapper {
 			margin-top: 109upx;
 			height: 65upx;
@@ -108,6 +126,7 @@
 			flex-direction: row;
 			align-items: center;
 			justify-content: flex-start;
+			padding: 0 40upx;
 
 			.title {
 				font-size: 46upx;
@@ -120,6 +139,7 @@
 
 		.banner-wrapper {
 			margin-top: 30upx;
+			padding: 0 40upx;
 
 			.banner-ads {
 				width: 100%;
@@ -141,6 +161,7 @@
 		.match-title-wrapper {
 			margin-top: 60upx;
 			height: 65upx;
+			padding: 0 40upx;
 
 			.title {
 				font-size: 46upx;
@@ -152,10 +173,19 @@
 		}
 
 		.match-list {
+			width: 750upx;
 			margin-top: 40upx;
 			display: flex;
 			flex-direction: row;
+			overflow-x: scroll;
+			box-sizing: border-box;
+			padding: 0 40upx;
+			scrollbar-width: none;
+			scrollbar-width: none;
+			/* firefox */
+			-ms-overflow-style: none;
 
+			/* IE 10+ */
 			.empty-tips {
 				width: 100%;
 				height: 242upx;
@@ -228,7 +258,7 @@
 			flex-direction: row;
 			justify-content: space-between;
 			align-items: center;
-
+			padding: 0 40upx !important;
 			.test-title {
 				font-size: 46upx;
 				font-family: PingFang SC;
@@ -258,15 +288,16 @@
 		}
 
 		.test-wrapper {
-			margin-top: 33upx;
 			display: flex;
-			flex-direction: row;
-			flex-wrap: wrap;
-
+			flex-direction: column;
+			padding: 0 40upx;
+			margin-top: 33upx;
+			justify-content: center;
+			align-items: center;
 			.page-list-item {
-				width: 320upx;
+				width: 670upx;
 				height: 220upx;
-				background: #FFFFFF;
+				background: #000;
 				box-shadow: 0px 2px 18px rgba(0, 0, 0, 0.08);
 				opacity: 1;
 				border-radius: 30upx;
@@ -276,37 +307,38 @@
 				display: flex;
 				flex-direction: column;
 				justify-content: center;
-
-				&:nth-child(2n) {
-					margin-left: 30upx;
-				}
-
+				align-items: flex-start;
 				.page-list-item-title {
 					font-size: 36upx;
 					font-family: PingFang SC;
 					font-weight: 800;
 					line-height: 42upx;
-					color: #000000;
+					color: #ffffff;
 				}
-
-				.page-list-item-test {
-					font-size: 28upx;
-					font-family: PingFang SC;
-					font-weight: 500;
-					line-height: 33upx;
-					margin-top: 16upx;
-					color: #666666;
-					opacity: 1;
-				}
-
 				.page-list-item-join {
+					position: relative;
 					font-size: 22upx;
 					font-family: PingFang SC;
-					font-weight: 400;
 					line-height: 19upx;
-					margin-top: 20upx;
-					color: #46868B;
-					opacity: 1;
+					margin-top: 25upx;
+					margin-right: auto;
+					color: #ffffff;
+					padding: 15upx 25upx;
+					border-radius: 100upx;
+					display: flex;
+					flex-direction: row;
+					justify-content: center;
+					align-items: center;
+					overflow: hidden;
+					.page-list-item-join-mask {
+						position: absolute;
+						top: 0;
+						left: 0;
+						right: 0;
+						bottom: 0;
+						opacity: 0.5;
+						background-color: #fff;
+					}
 				}
 			}
 		}

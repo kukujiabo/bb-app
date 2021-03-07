@@ -11,10 +11,10 @@
 				<text class="login-desc">请登陆后查看相关数据</text>
 			</view>
 			<view class="phone-input">
-				<input v-model="phone" placeholder="请输入手机号"/>
+				<input v-model="phone" placeholder="请输入手机号" />
 			</view>
 			<view class="password-input">
-				<input v-model="password" type="password" placeholder="请输入密码"/>
+				<input v-model="password" type="password" placeholder="请输入密码" />
 			</view>
 			<view class="other-options">
 				<view class="forget">
@@ -27,7 +27,7 @@
 				</view>
 			</view>
 			<view class="login-btn-wrapper">
-				<image class="login-btn" src="@/static/images/ico01@2x.png" @click="login"/>
+				<image class="login-btn" src="@/static/images/ico01@2x.png" @click="login" />
 			</view>
 			<view class="reg" @click="toRegister">
 				<text class="reg-text">我要注册</text>
@@ -45,7 +45,9 @@
 
 <script>
 	import request from '../../../utils/request.js';
-	import { login } from '@/config/api.json'
+	import {
+		login
+	} from '@/config/api.json'
 	export default {
 		data() {
 			return {
@@ -56,7 +58,9 @@
 		},
 		onLoad() {
 			if (uni.getStorageSync('uid')) {
-				uni.switchTab({ url: '/pages/index/index' })
+				uni.switchTab({
+					url: '/pages/index/index'
+				})
 			}
 		},
 		methods: {
@@ -91,10 +95,15 @@
 				uni.showLoading({
 					title: '正在登录'
 				})
-				try{
-					const res = await request(login, { username: this.phone, password: this.password }, {})
+				try {
+					const res = await request(login, {
+						username: this.phone,
+						password: this.password
+					}, {})
 					if (res.code === 200) {
-						uni.showToast({ title: '登录成功!' })
+						uni.showToast({
+							title: '登录成功!'
+						})
 						const result = res.result
 						if (this.record) {
 							uni.setStorageSync('uid', result.user_id)
@@ -102,11 +111,21 @@
 							uni.setStorageSync('phone', result.phone)
 							uni.setStorageSync('is_vip', result.is_vip)
 						}
+						const boss = uni.getStorageSync('boss')
+						console.log(boss, 'boss')
 						setTimeout(() => {
-							uni.switchTab({ url: '/pages/index/index' })
+							if (boss) {
+								uni.switchTab({
+									url: '/pages/index/index'
+								})
+							} else {
+								uni.navigateTo({
+									url: '/pages/checkboss/checkboss'
+								})
+							}
 						}, 1500)
-					} 
-				}catch(e){
+					}
+				} catch (e) {
 					uni.hideLoading()
 					uni.showModal({
 						title: '错误',
@@ -119,148 +138,168 @@
 </script>
 
 <style lang="scss">
-.login {
-	width: 750upx;
-	height: 1624upx;
-	background: #F6F6F6;
-	position: fixed;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	.login-content-wrapper {
-		position: absolute;
-		top: 189upx;
-		left: 72upx;
-		right: 72upx;
-		bottom: 138upx;
-		.login-logo-wrapper {
-			height: 115.05upx;
-			.logo {
-				width: 125.1upx;
+	.login {
+		width: 750upx;
+		height: 1624upx;
+		background: #F6F6F6;
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+
+		.login-content-wrapper {
+			position: absolute;
+			top: 189upx;
+			left: 72upx;
+			right: 72upx;
+			bottom: 138upx;
+
+			.login-logo-wrapper {
 				height: 115.05upx;
+
+				.logo {
+					width: 125.1upx;
+					height: 115.05upx;
+				}
 			}
-		}
-		.login-title-wrapper {
-			margin-top: 27upx;
-			height: 65upx;
-			display: flex;
-			align-items: center;
-			justify-content: flex-start;
-			.login-title {
-				font-size: 46upx;
-				font-family: PingFang SC;
-				font-weight: bold;
-				line-height: 48upx;
-				color: #282828;
+
+			.login-title-wrapper {
+				margin-top: 27upx;
+				height: 65upx;
+				display: flex;
+				align-items: center;
+				justify-content: flex-start;
+
+				.login-title {
+					font-size: 46upx;
+					font-family: PingFang SC;
+					font-weight: bold;
+					line-height: 48upx;
+					color: #282828;
+				}
 			}
-		}
-		.login-desc-wrapper {
-			height: 42upx;
-			margin-top: 14upx;
-			.login-desc {
-				font-size: 30upx;
-				font-family: PingFang SC;
-				font-weight: 400;
-				line-height: 48upx;
-				color: #666666;
+
+			.login-desc-wrapper {
+				height: 42upx;
+				margin-top: 14upx;
+
+				.login-desc {
+					font-size: 30upx;
+					font-family: PingFang SC;
+					font-weight: 400;
+					line-height: 48upx;
+					color: #666666;
+				}
 			}
-		}
-		.phone-input {
-			margin-top: 77upx;
-			width: 100%;
-			height: 126upx;
-			border-bottom: 1rpx solid #DDDDDD;
-			display: flex;
-			flex-direction: row;
-			align-items: center;
-		}
-		.password-input {
-			margin-top: 7upx;
-			width: 100%;
-			height: 126upx;
-			border-bottom: 1rpx solid #DDDDDD;
-			display: flex;
-			flex-direction: row;
-			align-items: center;
-		}
-		.other-options {
-			margin-top: 48upx;
-			height: 45upx;
-			width: 100%;
-			display: flex;
-			flex-direction: row;
-			justify-content: space-between;
-			font-size: 32upx;
-			font-family: PingFang SC;
-			font-weight: 400;
-			line-height: 42upx;
-			color: #5E5E5E;
-			opacity: 1;
-			.forget {
+
+			.phone-input {
+				margin-top: 77upx;
+				width: 100%;
+				height: 126upx;
+				border-bottom: 1rpx solid #DDDDDD;
 				display: flex;
 				flex-direction: row;
 				align-items: center;
-				.forget-icon {
-					margin-right: 13upx;
-					width: 32upx;
-					height: 32upx;
+			}
+
+			.password-input {
+				margin-top: 7upx;
+				width: 100%;
+				height: 126upx;
+				border-bottom: 1rpx solid #DDDDDD;
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+			}
+
+			.other-options {
+				margin-top: 48upx;
+				height: 45upx;
+				width: 100%;
+				display: flex;
+				flex-direction: row;
+				justify-content: space-between;
+				font-size: 32upx;
+				font-family: PingFang SC;
+				font-weight: 400;
+				line-height: 42upx;
+				color: #5E5E5E;
+				opacity: 1;
+
+				.forget {
+					display: flex;
+					flex-direction: row;
+					align-items: center;
+
+					.forget-icon {
+						margin-right: 13upx;
+						width: 32upx;
+						height: 32upx;
+					}
+				}
+			}
+
+			.login-btn-wrapper {
+				margin-top: 63upx;
+				display: flex;
+				flex-direction: row;
+				justify-content: center;
+
+				.login-btn {
+					width: 140upx;
+					height: 140upx;
+				}
+			}
+
+			.reg {
+				margin-top: 61upx;
+				height: 49upx;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+
+				.reg-text {
+					font-size: 35upx;
+					font-family: PingFang SC;
+					font-weight: 500;
+					line-height: 42upx;
+					color: #46868B;
+					opacity: 1;
+				}
+			}
+
+			.third-party-login {
+				width: 100%;
+				height: 96upx;
+				margin-top: 101upx;
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+				justify-content: center;
+
+				.third-party-icon {
+					width: 96upx;
+					height: 96upx;
+					margin: 0 50upx;
+				}
+			}
+
+			.agreement {
+				margin-top: 60upx;
+				height: 33upx;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+
+				.agreement-text {
+					font-size: 24upx;
+					font-family: PingFang SC;
+					font-weight: 400;
+					line-height: 48pux;
+					color: #999999;
 				}
 			}
 		}
-		.login-btn-wrapper {
-			margin-top: 63upx;
-			display: flex;
-			flex-direction: row;
-			justify-content: center;
-			.login-btn {
-				width: 140upx;
-				height: 140upx;
-			}
-		}
-		.reg {
-			margin-top: 61upx;
-			height: 49upx;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			.reg-text {
-				font-size: 35upx;
-				font-family: PingFang SC;
-				font-weight: 500;
-				line-height: 42upx;
-				color: #46868B;
-				opacity: 1;
-			}
-		}
-		.third-party-login {
-			width: 100%;
-			height: 96upx;
-			margin-top: 101upx;
-			display: flex;
-			flex-direction: row;
-			align-items: center;
-			justify-content: center;
-			.third-party-icon {
-				width: 96upx;
-				height: 96upx;
-				margin: 0 50upx;
-			}
-		}
-		.agreement {
-			margin-top: 60upx;
-			height: 33upx;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			.agreement-text {
-				font-size: 24upx;
-				font-family: PingFang SC;
-				font-weight: 400;
-				line-height: 48pux;
-				color: #999999;
-			}
-		}
 	}
-}
 </style>

@@ -255,12 +255,14 @@
 					opacity: 1;
 				}
 				.small-image-image {
-					width: 320upx;
-					height: 220upx;
+					width: 200upx;
+					height: 200upx;
 					background: #eee;
 					border-radius: 16upx;
-					&:nth-child(even) {
-						margin-left: 30upx;
+					margin-left: 30upx;
+					margin-bottom: 30upx;
+					&:nth-child(3n + 1) { 
+						margin-left: 0;
 					}
 				}
 			}

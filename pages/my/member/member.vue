@@ -163,10 +163,10 @@
 			back() {
 				uni.navigateBack()
 			},
-			async getVipList() {
+			async getVipList() { 
 				const res = await request(vipList, {}, {}, 'get')
 				this.cardList = res.result
-				this.price = cardList[0].title1
+				this.price = this.cardList[0].title1 
 			},
 			async requestPayment() {
 				uni.showLoading({

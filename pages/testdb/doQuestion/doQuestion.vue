@@ -10,18 +10,15 @@
 		<view class="question-image-wrapper">
 			<image class="question-image" :src="currentQuestion.cover_img"></image>
 		</view>
-		<view
-			class="match-condition hobby"
-			:key="q.id"
-			:class="{ active: index === q.id }"
-			v-for="q in currentQuestion.answer_list"
-			@click="switchType(q.id)"
-			>
-			<text>{{q.title}}</text>
+		<view class="match-condition-list">
+			<view class="match-condition hobby" :key="q.id" :class="{ active: index === q.id }" v-for="q in currentQuestion.answer_list"
+			 @click="switchType(q.id)">
+				<text>{{q.title}}</text>
+			</view>
 		</view>
-		<view class="next-wrapper">
+		<!-- 		<view class="next-wrapper">
 			<image class="next-image" src="../../../static/images/ico01@2x.png" @click="next"></image>
-		</view>
+		</view> -->
 		<view class="qnum">
 			<text class="ac">{{(currentIndex + 1)}}</text>
 			<text class="ma">/{{maxQuestionNum}}</text>
@@ -31,7 +28,10 @@
 
 <script>
 	import request from '../../../utils/request.js';
-	import { questionList, submitText } from '@/config/api.json';
+	import {
+		questionList,
+		submitText
+	} from '@/config/api.json';
 	export default {
 		data() {
 			return {
@@ -61,13 +61,13 @@
 			this.getQuestionList()
 		},
 		methods: {
-			switchType(id) {
-				this.index = id
-			},
 			async getQuestionList() {
 				const user_id = uni.getStorageSync('uid')
 				const cid = this.cid
-				const res = await request(questionList, { user_id, cid }, {})
+				const res = await request(questionList, {
+					user_id,
+					cid
+				}, {})
 				this.data_list = res.result.data_list
 				this.maxQuestionNum = this.data_list.length
 				this.currentQuestion = this.data_list[0]
@@ -75,10 +75,11 @@
 			},
 			back() {
 				uni.navigateBack({
-					
+
 				})
 			},
-			async next() {
+			async switchType(id) {
+				this.index = id
 				if (this.index === 0) {
 					uni.showToast({
 						icon: 'none',
@@ -86,7 +87,10 @@
 					})
 					return
 				} else {
-					this.answers.push({ id: this.currentQuestion.id, aid: this.index })
+					this.answers.push({
+						id: this.currentQuestion.id,
+						aid: this.index
+					})
 					this.index = 0
 				}
 				if (this.currentIndex < this.maxQuestionNum - 1) {
@@ -98,12 +102,18 @@
 					uni.showLoading({
 						title: '测试完成...',
 						mask: true
-					}) 
+					})
 					const user_id = uni.getStorageSync('uid')
-					const result = await request(submitText, { sn, user_id, cid: this.cid }, {})
+					const result = await request(submitText, {
+						sn,
+						user_id,
+						cid: this.cid
+					}, {})
 					uni.hideLoading()
 					setTimeout(() => {
-						uni.redirectTo({ url: '/pages/match/doMAtch/doMAtch?index=1' })
+						uni.redirectTo({
+							url: '/pages/match/doMAtch/doMAtch?index=1'
+						})
 					}, 500)
 				}
 			}
@@ -112,132 +122,155 @@
 </script>
 
 <style lang="scss">
-.match {
-	width: 100vw;
-	min-height: 100vh;
-	padding: 0 70upx;
-	background-color: #F6f6f6;
-	overflow: auto;
-	box-sizing: border-box;
-	.title-wrapper {
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		margin-top: 107upx;
-		justify-content: flex-start;
-		.title-left {
-			width: 40upx;
-			height: 40upx;
+	.match {
+		width: 100vw;
+		min-height: 100vh;
+		padding: 0 70upx;
+		background-color: #F6f6f6;
+		overflow: auto;
+		box-sizing: border-box;
+
+		.title-wrapper {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			margin-top: 107upx;
+			justify-content: flex-start;
+
+			.title-left {
+				width: 40upx;
+				height: 40upx;
+			}
+
+			.exam-title {
+				margin-left: 13upx;
+				font-size: 40upx;
+				font-family: PingFang SC;
+				font-weight: bold;
+				line-height: 52upx;
+				color: #282828;
+			}
 		}
-		.exam-title {
-			margin-left: 13upx;
-			font-size: 40upx;
-			font-family: PingFang SC;
-			font-weight: bold;
-			line-height: 52upx;
-			color: #282828;
-		} 
-	} 
-	.match-title-wrapper {
-		margin-top: 150upx;
-		.match-title-text {
-			font-size: 46upx;
-			font-family: PingFang SC;
-			font-weight: bold;
-			line-height: 52upx;
-			color: #282828;
-			opacity: 1;
+
+		.match-title-wrapper {
+			margin-top: 150upx;
+
+			.match-title-text {
+				font-size: 46upx;
+				font-family: PingFang SC;
+				font-weight: bold;
+				line-height: 52upx;
+				color: #282828;
+				opacity: 1;
+			}
 		}
-	}
-	.question-image-wrapper {
-		margin-top: 60upx;
-		width: 600upx;
-		height: 219upx;
-		background: rgba(0, 0, 0, 0);
-		opacity: 1;
-		border-radius: 24upx;
-		.question-image {
+
+		.question-image-wrapper {
+			margin-top: 60upx;
 			width: 600upx;
 			height: 219upx;
+			background: rgba(0, 0, 0, 0);
 			opacity: 1;
 			border-radius: 24upx;
+
+			.question-image {
+				width: 600upx;
+				height: 219upx;
+				opacity: 1;
+				border-radius: 24upx;
+			}
 		}
-	}
-	.match-title-desc {
-		height: 48upx;
-		margin-top: 10upx;
-		.match-title-desc-text {
-			font-size: 34upx;
-			font-family: PingFang SC;
-			font-weight: 400;
-			line-height: 48upx;
-			color: #666666;
+
+		.match-title-desc {
+			height: 48upx;
+			margin-top: 10upx;
+
+			.match-title-desc-text {
+				font-size: 34upx;
+				font-family: PingFang SC;
+				font-weight: 400;
+				line-height: 48upx;
+				color: #666666;
+			}
 		}
-	}
-	.qnum {
-		width: 100%;
-		text-align: center;
-		padding: 100upx 0;
-		.ac {
-			font-size: 40upx;
-			font-family: PingFang SC;
-			font-weight: 400;
-			line-height: 34upx;
+
+		.qnum {
+			width: 100%;
+			text-align: center;
+			padding: 100upx 0;
+
+			.ac {
+				font-size: 40upx;
+				font-family: PingFang SC;
+				font-weight: 400;
+				line-height: 34upx;
+				color: #46868B;
+			}
+
+			.ma {
+				font-size: 34upx;
+				font-family: PingFang SC;
+				font-weight: 400;
+				line-height: 34upx;
+				color: #999999;
+			}
+		}
+		.match-condition-list {
+			display: flex;
+			justify-content: center;
+			.match-condition {
+				position: relative;
+				width: 250upx;
+				height: 140upx;
+				margin: 0 30upx;
+				background: #FFFFFF;
+				box-shadow: 0px 2px 18px rgba(0, 0, 0, 0.08);
+				opacity: 1;
+				border-radius: 24upx;
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+				justify-content: center;
+				box-sizing: border-box;
+
+				font-size: 36upx;
+				font-family: PingFang SC;
+				font-weight: bold;
+				line-height: 34upx;
+				color: #282828;
+
+				.check-icon {
+					width: 40upx;
+					height: 40upx;
+					position: absolute;
+					left: 105upx;
+					top: 50upx;
+				}
+			}
+		}
+
+		.match-condition.active {
 			color: #46868B;
+			border: 2upx solid #46868B;
 		}
-		.ma {
-			font-size: 34upx;
-			font-family: PingFang SC;
-			font-weight: 400;
-			line-height: 34upx;
-			color: #999999;
+
+		.next-wrapper {
+			margin-top: 200upx;
+			display: flex;
+			justify-content: center;
+
+			.next-image {
+				width: 140upx;
+				height: 140upx;
+			}
 		}
-	}
-	.match-condition {
-		position: relative;
-		width: 610upx;
-		height: 140upx;
-		background: #FFFFFF;
-		box-shadow: 0px 2px 18px rgba(0, 0, 0, 0.08);
-		opacity: 1;
-		border-radius: 24upx;
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		justify-content: center;
-		box-sizing: border-box;
-		
-		font-size: 36upx;
-		font-family: PingFang SC;
-		font-weight: bold;
-		line-height: 34upx;
-		color: #282828;
-		.check-icon {
-			width: 40upx;
-			height: 40upx;
-			position: absolute;
-			left: 105upx;
-			top: 50upx;
+
+		.hobby {
+			margin-top: 50upx;
+		}
+
+		.degree {
+			margin-top: 70upx;
 		}
 	}
-	.match-condition.active {
-		color: #46868B;
-		border: 2upx solid #46868B;
-	}
-	.next-wrapper {
-		margin-top: 200upx;
-		display: flex;
-		justify-content: center;
-		.next-image {
-			width: 140upx;
-			height: 140upx;
-		}
-	}
-	.hobby {
-		margin-top: 50upx;
-	}
-	.degree {
-		margin-top: 70upx;
-	}
-}
 </style>

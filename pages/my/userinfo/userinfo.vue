@@ -22,8 +22,8 @@
 					<image class="toleft" src="../../../static/images/ico07@2x.png"></image>
 				</view>
 			</view>
-			<view class="content-item" @click="touserinfo">
-				<text class="content-title">微信</text>
+			<view class="content-item" @click="chooseSex">
+				<text class="content-title">性别</text>
 				<view class="content-tail">
 					<image class="toleft" src="../../../static/images/ico07@2x.png"></image>
 				</view>
@@ -38,13 +38,26 @@
 				<text class="logout">安全退出</text>
 			</view>
 		</view>
+		<selector
+			ref="selector"
+			:currentId="currentId"
+			:title="sexOptions.selectTitle" 
+			:options="sexOptions.options"
+			:confirmText="sexOptions.confirmText"
+			@confirm="selectConfirm"
+			>
+		</selector>
 	</view>
 </template>
 
 <script>
 	import request from '../../../utils/request.js'
-	import { editHeader } from '@/config/api'
+	import Selector from '../../../components/selector.vue'
+	import { editHeader, editUser } from '@/config/api'
 	export default {
+		components: {
+			Selector
+		},
 		computed: {
 			getPhone() {
 				if (this.user_info.phone) {
@@ -57,6 +70,24 @@
 		},
 		data() {
 			return {
+				currentId: 0,
+				currentOptions: {
+					selectTitle: '',
+					options: [],
+					confirmText: '确定'
+				},
+				sexOptions: {
+					key: 'select_sex',
+					selectTitle: '选择性别',
+					confirmText: '确定',
+					options: [{
+						id: 1,
+						name: '男'
+					},{
+						id: 2,
+						name: '女'
+					}],
+				},
 				user_info: {
 					"userid": 6,
 					"head": "",
@@ -77,14 +108,14 @@
 					"times": 0,
 					"is_vip": 0,
 					"expire_time": ""
-				}
+				},
 			};
 		},
 		onShow() {
 			this.user_info = uni.getStorageSync('user_info')
 		},
 		methods: {
-			back() {
+			back() { 
 				uni.navigateBack()
 			},
 			touserinfo() {
@@ -95,6 +126,9 @@
 					url: '../editText/editText?key=nickname'
 				})
 			},
+			chooseSex() {
+				this.$refs.selector.show()
+			},
 			editPassword() {
 				uni.navigateTo({
 					url: '../resetPassword/resetPassword'
@@ -103,7 +137,26 @@
 			toeditphone() {
 				uni.navigateTo({
 					url: '../editPhone/editPhone'
-				})
+				}) 
+			},
+			async selectConfirm(option) {
+				const user_id = uni.getStorageSync('uid')
+				const params = {
+					user_id,
+					sex: option.id
+				}
+				const res = await request(editUser, params)
+				if (res.code === 200) {
+					this.getUserInfo()
+					uni.showToast({
+						title: '修改成功！'
+					})
+				}
+			},
+			async getUserInfo() {
+				const user_id = uni.getStorageSync('uid')
+				const res = await request(userinfo, { user_id })
+				this.user_info = res.result.user_info
 			},
 			editHeader() {
 				const user_id = uni.getStorageSync('uid')
@@ -144,8 +197,9 @@
 					title: '提示',
 					content: '确认退出吗?',
 					success: ({ confirm }) => {
-						if (confirm) {
+						if (confirm) { 
 							uni.clearStorageSync()
+							uni.setStorageSync('boss', 1)
 							uni.redirectTo({
 								url: '/pages/auth/login/login'
 							})

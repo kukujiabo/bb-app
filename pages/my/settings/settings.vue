@@ -37,9 +37,6 @@
 				<text class="content-title">旅游</text>
 				<image class="toleft" src="../../../static/images/ico07@2x.png"></image>
 			</view>
-			<view class="confirm" @tap="confirmInfo">
-				<text class="confirm-text">确定</text>
-			</view>
 		</view>
 		<selector
 			ref="selector"
@@ -158,11 +155,6 @@
 				uni.navigateTo({
 					url: '../userinfo/userinfo'
 				})
-			},
-			confirmInfo() {
-				setTimeout(() => uni.showToast({
-					title: '修改成功！'
-				}), 200)
 			},
 			showSelectColor(index) {
 				switch(index) {

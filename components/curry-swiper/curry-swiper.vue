@@ -131,7 +131,7 @@
       },
       slideWidth () {
         const vw = this.viewport
-        const sw = parseInt(this.width) + (parseInt(this.border, 10) * 2)
+        const sw = (parseInt(this.width) + (parseInt(this.border, 10) * 2)) * 0.8
         return vw < sw ? vw : sw
       },
       slideHeight () {

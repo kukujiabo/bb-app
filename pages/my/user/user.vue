@@ -15,7 +15,7 @@
 				<view class="member-type">
 					<text class="member-type-name">BB会员</text>
 					<text class="member-type-status">{{user_info.is_vip ? user_info.expire_time : '未开通会员'}}</text>
-				</view>
+				</view> 
 				<view class="buy">
 					<view class="buy-btn" @click="openMember">
 						<text>{{ user_info.is_vip ? '续费' : '开通会员' }}</text>
@@ -24,11 +24,7 @@
 			</view>
 		</view>
 		<view class="user-grid">
-			<view class="user-grid-item" style="width:130upx" @click="toHobby">
-				<image class="user-grid-item-icon" src="../../../static/images/hobbit.png"></image>
-				<text class="user-grid-item-title">兴趣爱好</text>
-			</view>
-			<view class="user-grid-item" style="width:350upx" @click="toSpace">
+			<view class="user-grid-item" @click="toSpace">
 				<image class="user-grid-item-icon" src="../../../static/images/myspace.png"></image>
 				<text class="user-grid-item-title">我的空间（{{numbers.space_num}}）</text>
 			</view>
@@ -282,13 +278,14 @@
 	.user-grid {
 		display: flex;
 		flex-direction: row;
-		justify-content: space-between;
+		justify-content: center;
 		padding: 40upx 50upx;
 		.user-grid-item {
 			display: flex;
 			flex-direction: column;
 			justify-content: flex-start;
 			align-items: center;
+			width: 300upx;
 			.user-grid-item-icon {
 				width: 100upx;
 				height: 100upx;
