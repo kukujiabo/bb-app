@@ -31,7 +31,8 @@
 					<image class="match-second" :src="mg.person.head"></image>
 				</view>
 				<view class="match-name">
-					<text class="match-name-text">{{mg.member.nickname}}    {{mg.person.nickname}}</text>
+					<text class="match-name-text">{{mg.member.nickname}}</text>
+					<text class="match-name-text">{{mg.person.nickname}}</text>
 				</view>
 			</view>
 		</view>
@@ -258,13 +259,22 @@
 			.match-name {
 				margin-top: 20upx;
 				text-align: center;
-
+				display: flex;
+				flex-direction: row;
+				align-items: center;
 				.match-name-text {
+					width: 160upx;
+					margin: 0 18upx;
 					font-size: 30upx;
 					font-family: PingFang SC;
 					font-weight: 400;
 					line-height: 40upx;
 					color: #000000;
+					display: inline-block;
+					text-align: center;
+					overflow: hidden;
+					white-space: nowrap;
+					text-overflow: ellipsis;
 				}
 			}
 		}
@@ -278,6 +288,7 @@
 			align-items: center;
 			padding: 0 40upx !important;
 			.test-title {
+
 				font-size: 46upx;
 				font-family: PingFang SC;
 				font-weight: bold;

@@ -39,20 +39,21 @@
 				this.index = index
 			},
 			async toDoMatch() {
-				uni.showLoading()
+				// uni.showLoading()
 				const user_id = uni.getStorageSync('uid')
-				const res = await request(addMatch, { user_id, type: this.index - 1 })
-				uni.hideLoading()
-				if (res.code === 200) {
-					uni.navigateTo({
-						url: '/pages/match/doMAtch/doMAtch?index=' + this.index
-					})
-				} else {
-					uni.showToast({
-						icon: 'none',
-						title: '网络错误,请重试!'
-					})
-				}
+				// const res = await request(addMatch, { user_id, type: this.index - 1 })
+				// uni.hideLoading()
+				uni.navigateTo({
+					url: '/pages/match/doMAtch/doMAtch?type=' + (this.index - 1)
+				})
+		// 		if (res.code === 200) {
+		
+		// 		} else {
+		// 			uni.showToast({
+		// 				icon: 'none',
+		// 				title: '网络错误,请重试!'
+		// 			})
+		// 		}
 			},
 			selectOptions() {
 				uni.navigateTo({

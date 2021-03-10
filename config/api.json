@@ -16,7 +16,7 @@
 	"forget": "/mallapi/login/forgetpassword",
 	"addMatch": "/mallapi/match/index",
 	"getMatch": "/mallapi/match/getpartner",
-	"requestMatch": "/mallapi/match/setpartnerapply",
+	"requestMatch": "/mallapi/newmatch/setfriendapply",
 	"addMoment": "/mallapi/user/setproject",
 	"changePhone": "/mallapi/login/bindphone",
 	"getSpaceDetail": "/mallapi/user/getprodetail",
@@ -30,5 +30,7 @@
 	"getTitle": "/mallapi/index/getattrtitle",
 	"getArticle": "/mallapi/index/cms",
 	"matchCondition": "/mallapi/newmatch/setconditions",
-	"getCondition": "/mallapi/newmatch/getConditions"
+	"getCondition": "/mallapi/newmatch/getConditions",
+	"getApplyNum": "/mallapi/newmatch/getapplynum",
+	"getNewFriend": "/mallapi/newmatch/getfriend"
 }

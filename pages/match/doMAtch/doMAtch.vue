@@ -3,8 +3,9 @@
 		<view class="title-wrapper">
 			<image class="title-left" src="../../../static/images/arrow-left.png" @click="back()"></image>
 			<text class="exam-title">配对状态</text>
+			<view class="note-num" @click="toApplyList">{{apply_num}}</view>
 		</view>
-		<view v-if="matchInfo.match_id">
+		<view v-if="matchInfo.new_match_id">
 			<view class="match-title-wrapper">
 				<text>{{status}}</text>
 			</view>
@@ -13,10 +14,10 @@
 				<image class="match-zoom-image" :src="matchInfo.user_info.person.head"></image>
 			</view>
 			<view class="match-tips-wrapper">
-				<text class="match-tips-text">{{getStatus}}</text>
+				<text class="match-tips-text">{{matchInfo.words}}</text>
 			</view>
 			<view class="match-time-wrapper">
-				<text class="match-time-text">{{matchInfo.period_time[0]}}-{{matchInfo.period_time[1]}}</text>
+				<text class="match-time-text">{{matchInfo.period_time[0]}}~{{matchInfo.period_time[1]}}</text>
 			</view>
 			<view v-if="!matchSuccess">
 				<view class="apply-date" @click="dopay">
@@ -48,7 +49,9 @@
 		requestMatch,
 		getApply,
 		dealApply,
-		responseCheck
+		responseCheck,
+		getApplyNum,
+		getNewFriend
 	} from '@/config/api'
 	import request from '../../../utils/request.js'
 	import MatchNotice from '../../../components/matchNotice.vue'
@@ -61,6 +64,7 @@
 		},
 		data() {
 			return {
+				type: 0,
 				status: '恭喜配对成功',
 				getStatus: 'GET一周',
 				startAt: '2020-10-14',
@@ -86,18 +90,22 @@
 					"is_vip": 0,
 					"expire_time": ""
 				},
+				apply_num: 0,
 				matchInfo: {
-					match_id: 0,
+					new_match_id: 0,
 					user_info: {
 						member: {
+							userid: 0,
 							nickname: "",
 							head: ""
 						},
 						person: {
-							nickname: "2茶",
+							userid: 0,
+							nickname: "",
 							head: ""
 						}
 					},
+					words: '',
 					period_time: []
 				},
 				applyInfo: {
@@ -107,7 +115,8 @@
 				matchSuccess: false
 			};
 		},
-		onLoad() {
+		onLoad(options) {
+			this.type = options.type
 			this.userinfo = uni.getStorageSync('user_info')
 			this.getMatch()
 			const user_id = uni.getStorageSync('uid')
@@ -123,29 +132,11 @@
 					}
 				}, 1500)
 				handler2 = setInterval(async () => {
-					const res = await request(responseCheck, {
-						user_id,
-						match_id: this.matchInfo.match_id
+					const res = await request(getApplyNum, {
+						user_id
 					}, {}, 'get')
-					if (res.result.apply_status.status === 2) {
-						uni.showToast({
-							icon: 'none',
-							title: '匹配成功，可以开始聊天了！'
-						})
-						clearInterval(handler2)
-						this.matchSuccess = true
-					} else if (res.result.apply_status.status === 0) {
-						uni.showToast({
-							icon: 'none',
-							title: '对方已拒绝，请重新匹配'
-						})
-						clearInterval(handler2)
-						this.matchSuccess = false
-						setTimeout(() => uni.navigateBack({
-
-						}), 1500)
-					}
-				}, 1500)
+					this.apply_num = res.result.apply_num
+				}, 3000)
 			}
 		},
 		onUnload() {
@@ -158,6 +149,11 @@
 			},
 			im() {
 				
+			},
+			toApplyList() {
+				uni.navigateTo({
+					url: '../../my/matchRecord/matchRecord?tabIndex=2'
+				})
 			},
 			async confirmApply() {
 				const user_id = uni.getStorageSync('uid')
@@ -187,11 +183,13 @@
 				}), 1000)
 			},
 			async getMatch() {
+				console.log(this.type, 'type')
 				try {
 					uni.showLoading()
 					const user_id = uni.getStorageSync('uid')
-					const res = await request(getMatch, {
-						user_id
+					const res = await request(getNewFriend, {
+						user_id,
+						type: this.type
 					}, {}, 'GET')
 					this.matchInfo = res.result
 					uni.hideLoading()
@@ -213,7 +211,7 @@
 				try {
 					const res = await request(requestMatch, {
 						user_id,
-						match_id: this.matchInfo.match_id
+						new_match_id: this.matchInfo.new_match_id
 					})
 					uni.hideLoading()
 					uni.showToast({
@@ -273,12 +271,12 @@
 		}
 
 		.title-wrapper {
+			position: relative;
 			display: flex;
 			flex-direction: row;
 			align-items: center;
 			margin-top: 107upx;
 			justify-content: flex-start;
-
 			.title-left {
 				width: 40upx;
 				height: 40upx;
@@ -292,6 +290,21 @@
 				line-height: 52upx;
 				color: #282828;
 
+			}
+			.note-num {
+				position: absolute;
+				right: 40upx;
+				top: 0;
+				width: 50upx;
+				height: 50upx;
+				font-size: 14px;
+				border-radius: 20upx;
+				background-color: #DD524D;
+				color: #fff;
+				display: flex;
+				flex-direction: row;
+				justify-content: center;
+				align-items: center;
 			}
 		}
 

@@ -59,7 +59,10 @@
 				data_list: []
 			};
 		},
-		onLoad() {
+		onLoad(options) {
+			if (options.tabIndex) {
+				this.tabIndex = Number(options.tabIndex)
+			}
 			this.getMatchedList()
 		},
 		methods: {
