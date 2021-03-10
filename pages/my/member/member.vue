@@ -18,104 +18,32 @@
 				<curry-slide v-for="(slide, i) in cardList" :index="i" :key="i">
 					<template slot-scope="{ index, isCurrent, leftIndex, rightIndex }">
 						<view class="icon-cards__item" :class="{ active: i === currentIndex }" @tap="tapCard(i)">
-							<view class="title">
-								<text>{{cardNames[i]}}</text>
-							</view>
-							<view class="price">
-								<text class="pt">¥</text>
-								<text class="pp">{{slide.title1}}</text>
-							</view>
-							<view class="old-price">
-								<text>¥ {{slide.price}}</text>
-							</view>
-							<view class="tips">
-								<text>次数： {{slide.times}}</text>
-							</view>
-							<view class="tips">
-								<text>{{slide.title2}}</text>
-							</view>
-							<view class="tips">
-								<text>{{slide.title3}}</text>
+							<view style="transform: scale(0.8);">
+								<view class="title">
+									<text>{{slide.title1}}</text>
+								</view>
+								<view class="price">
+									<text class="pt">¥</text>
+									<text class="pp">{{slide.price}}</text>
+								</view>
+								<view class="tips">
+									<text>次数： {{slide.times}}</text>
+								</view>
+								<view class="tips">
+									<text>{{slide.title2}}</text>
+								</view>
+								<view class="tips">
+									<text>{{slide.title3}}</text>
+								</view>
 							</view>
 						</view>
 					</template>
 				</curry-slide>
 			</curry-swiper>
-			<!--
-			<view class="icon-cards">
-				<view class="icon-cards__content">
-					<view class="icon-cards__item" @tap="tapCard(0)">
-						<view class="title">
-							<text>月卡会员</text>
-						</view>
-						<view class="price">
-							<text class="pt">¥</text>
-							<text class="pp">{{cardList[0].title1}}</text>
-							<text class="pd">/月</text>
-						</view>
-						<view class="old-price">
-							<text>¥ {{cardList[0].price}}/月</text>
-						</view>
-						<view class="tips">
-							<text>次数： {{cardList[0].times}}</text>
-						</view>
-						<view class="tips">
-							<text>{{cardList[0].title2}}</text>
-						</view>
-						<view class="tips">
-							<text>{{cardList[0].title3}}</text>
-						</view>
-					</view>
-					<view class="icon-cards__item" @tap="tapCard(1)">
-						<view class="title">
-							<text>季卡会员</text>
-						</view>
-						<view class="price">
-							<text class="pt">¥</text>
-							<text class="pp">{{cardList[1].title1}}</text>
-						</view>
-						<view class="old-price">
-							<text>¥ {{cardList[1].price}}/月</text>
-						</view>
-						<view class="tips">
-							<text>次数： {{cardList[1].times}}</text>
-						</view>
-						<view class="tips">
-							<text>{{cardList[1].title2}}</text>
-						</view>
-						<view class="tips">
-							<text>{{cardList[1].title3}}</text>
-						</view>
-					</view>
-					<view class="icon-cards__item" @tap="tapCard(2)">
-						<view class="title">
-							<text>年卡会员</text>
-						</view>
-						<view class="price">
-							<text class="pt">¥</text>
-							<text class="pp">{{cardList[2].title1}}</text>
-							<text class="pd">/月</text>
-						</view>
-						<view class="old-price">
-							<text>¥ {{cardList[2].price}}/月</text>
-						</view>
-						<view class="tips">
-							<text>次数： {{cardList[2].times}}</text>
-						</view>
-						<view class="tips">
-							<text>{{cardList[2].title2}}</text>
-						</view>
-						<view class="tips">
-							<text>{{cardList[2].title3}}</text>
-						</view>
-					</view>
-				</view>
-			</view>
-			-->
 		</view>
 		<view class="pay">
 			<view class="apply-date" @click="requestPayment">
-				<text class="apply-date-text">确认支付： ¥{{price}}.00</text>
+				<text class="apply-date-text">确认支付：¥{{price}}.00</text>
 			</view>
 		</view>
 	</view>
@@ -166,7 +94,7 @@
 			async getVipList() { 
 				const res = await request(vipList, {}, {}, 'get')
 				this.cardList = res.result
-				this.price = this.cardList[0].title1 
+				this.price = this.cardList[0].price 
 			},
 			async requestPayment() {
 				uni.showLoading({
@@ -197,7 +125,7 @@
 			},
 			tapCard(index) {
 				this.currentIndex = index
-				this.price = this.cardList[index].title1
+				this.price = this.cardList[index].price
 			}
 		}
 	}
@@ -242,7 +170,7 @@
 				border-radius: 6px;
 				background-color: #afafaf;
 				.title {
-					margin-top: 20upx;
+					margin-top: 5upx;
 					height: 84upx;
 					font-size: 60upx;
 					font-family: PingFang SC;

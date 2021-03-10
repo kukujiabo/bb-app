@@ -20,12 +20,15 @@
 	"addMoment": "/mallapi/user/setproject",
 	"changePhone": "/mallapi/login/bindphone",
 	"getSpaceDetail": "/mallapi/user/getprodetail",
-	"matchList": "/mallapi/user/matched",
+	"matchList": "/mallapi/newmatch/getmatchlist",
 	"getApply": "/mallapi/match/getpartnerapply",
-	"dealApply": "/mallapi/match/dealpartnerapply",
+	"dealApply": "/mallapi/newmatch/dealfriendapply",
 	"responseCheck": "/mallapi/match/getpartnerperssion",
 	"vipList": "/mallapi/pay/getvipprice",
 	"pay": "/mallapi/pay/confirmviporder",
 	"getPayData": "/mallapi/vipay/index",
-	"getTitle": "/mallapi/index/getattrtitle"
+	"getTitle": "/mallapi/index/getattrtitle",
+	"getArticle": "/mallapi/index/cms",
+	"matchCondition": "/mallapi/newmatch/setconditions",
+	"getCondition": "/mallapi/newmatch/getConditions"
 }

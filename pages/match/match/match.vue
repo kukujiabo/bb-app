@@ -1,5 +1,8 @@
 <template>
 	<view class="match">
+		<view class="title-content" @click="selectOptions">
+			<text>筛选</text>
+		</view>
 		<view class="match-title-wrapper">
 			<text class="match-title-text">匹配条件</text>
 		</view>
@@ -50,6 +53,11 @@
 						title: '网络错误,请重试!'
 					})
 				}
+			},
+			selectOptions() {
+				uni.navigateTo({
+					url: '../../my/hobby/hobby'
+				})
 			}
 		}
 	}
@@ -63,9 +71,18 @@
 	background-color: #F6f6f6;
 	overflow: auto;
 	box-sizing: border-box;
+	.title-content {
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-end;
+		height: 50px;
+		margin-top: 50px;
+		font-size: 18px;
+		line-height: 50px;
+	}
 	.match-title-wrapper {
 		height: 65upx;
-		margin-top: 222upx;
+		margin-top: 162upx;
 		.match-title-text {
 			font-size: 46upx;
 			font-family: PingFang SC;

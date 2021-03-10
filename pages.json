@@ -218,6 +218,15 @@
 				"navigationStyle": "custom"
 			}
 
+		}, {
+			"path": "pages/article/article",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false,
+				"navigationBarTextStyle": "black",
+				"navigationStyle": "custom"
+			}
+
 		}
 	],
 	"tabBar": {

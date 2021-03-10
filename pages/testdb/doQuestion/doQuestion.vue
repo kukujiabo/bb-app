@@ -11,14 +11,16 @@
 			<image class="question-image" :src="currentQuestion.cover_img"></image>
 		</view>
 		<view class="match-condition-list">
-			<view class="match-condition hobby" :key="q.id" :class="{ active: index === q.id }" v-for="q in currentQuestion.answer_list"
-			 @click="switchType(q.id)">
+			<view
+				v-for="q in currentQuestion.answer_list"
+				:key="q.id"
+				:class="{ active: index === q.id }"
+				class="match-condition hobby"
+				@click="switchType(q.id)"
+			 >
 				<text>{{q.title}}</text>
 			</view>
 		</view>
-		<!-- 		<view class="next-wrapper">
-			<image class="next-image" src="../../../static/images/ico01@2x.png" @click="next"></image>
-		</view> -->
 		<view class="qnum">
 			<text class="ac">{{(currentIndex + 1)}}</text>
 			<text class="ma">/{{maxQuestionNum}}</text>
@@ -36,7 +38,7 @@
 		data() {
 			return {
 				cid: 0,
-				index: 0,
+				index: null,
 				type: '',
 				question: '',
 				currentIndex: 0,
@@ -80,19 +82,19 @@
 			},
 			async switchType(id) {
 				this.index = id
-				if (this.index === 0) {
-					uni.showToast({
-						icon: 'none',
-						title: '请选择答案!'
-					})
-					return
-				} else {
-					this.answers.push({
-						id: this.currentQuestion.id,
-						aid: this.index
-					})
-					this.index = 0
-				}
+				// if (this.index === 0) {
+				// 	uni.showToast({
+				// 		icon: 'none',
+				// 		title: '请选择答案!'
+				// 	})
+				// 	return
+				// } else {
+				// 	this.answers.push({
+				// 		id: this.currentQuestion.id,
+				// 		aid: this.index
+				// 	})
+				// 	this.index = 0
+				// }
 				if (this.currentIndex < this.maxQuestionNum - 1) {
 					this.currentIndex++;
 					this.currentQuestion = this.data_list[this.currentIndex]

@@ -146,6 +146,7 @@
 					sex: option.id
 				}
 				const res = await request(editUser, params)
+				console.log(res,'---')
 				if (res.code === 200) {
 					this.getUserInfo()
 					uni.showToast({
@@ -156,6 +157,7 @@
 			async getUserInfo() {
 				const user_id = uni.getStorageSync('uid')
 				const res = await request(userinfo, { user_id })
+				console.log(userinfo, 'userinfo')
 				this.user_info = res.result.user_info
 			},
 			editHeader() {

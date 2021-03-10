@@ -14,8 +14,8 @@
 			<view class="membership">
 				<view class="member-type">
 					<text class="member-type-name">BB会员</text>
-					<text class="member-type-status">{{user_info.is_vip ? user_info.expire_time : '未开通会员'}}</text>
-				</view> 
+					<text class="member-type-status">{{user_info.is_vip ? `匹配次数：${user_info.info}` : '未开通会员'}}</text>
+				</view>
 				<view class="buy">
 					<view class="buy-btn" @click="openMember">
 						<text>{{ user_info.is_vip ? '续费' : '开通会员' }}</text>

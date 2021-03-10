@@ -5,8 +5,16 @@
 		</view>
 		<view class="banner-wrapper">
 			<swiper class="banner-ads">
-				<swiper-item class="banner-ads-item" v-for="ad in ad_list" :key="ad.id">
-					<image class="banner" :src="ad.img"></image>
+				<swiper-item
+					class="banner-ads-item"
+					v-for="ad in ad_list" :key="ad.id"
+					>
+					<image
+						class="banner"
+						:src="ad.img"
+						@click="toArticle(ad)"
+						>
+					</image>
 				</swiper-item>
 			</swiper>
 		</view> 
@@ -23,7 +31,7 @@
 					<image class="match-second" :src="mg.person.head"></image>
 				</view>
 				<view class="match-name">
-					<text class="match-name-text">{{mg.member.nickname}} -- {{mg.person.nickname}}</text>
+					<text class="match-name-text">{{mg.member.nickname}}    {{mg.person.nickname}}</text>
 				</view>
 			</view>
 		</view>
@@ -35,11 +43,17 @@
 			</view>
 		</view>
 		<view class="test-wrapper">
-			<view class="page-list-item" v-for="test in question_list" :key="test.id" @click="toDoQuestion(test.id)">
+			<view
+				class="page-list-item"
+				v-for="test in question_list"
+				:key="test.id"
+				@click="toDoQuestion(test.id)"
+				:style="{ backgroundColor:`#${test.rgba}` }"
+				>
 				<text class="page-list-item-title">{{test.title}}</text>
 				<view class="page-list-item-join">
 					<view class="page-list-item-join-mask"></view>
-					<text>{{test.numbers}}a人在线</text>
+					<text>{{test.numbers}}人在线</text>
 				</view>
 			</view>
 		</view>
@@ -101,6 +115,11 @@
 				this.app_index_title1 = res.result.data_list.app_index_title1
 				this.app_index_title2 = res.result.data_list.app_index_title2
 				this.app_index_title3 = res.result.data_list.app_index_title3
+			},
+			toArticle(ad) {
+				uni.navigateTo({
+					url: '/pages/article/article?aid=' + ad.aid
+				})
 			}
 		}
 	}
@@ -127,7 +146,6 @@
 			align-items: center;
 			justify-content: flex-start;
 			padding: 0 40upx;
-
 			.title {
 				font-size: 46upx;
 				font-family: PingFang SC;
@@ -297,7 +315,6 @@
 			.page-list-item {
 				width: 670upx;
 				height: 220upx;
-				background: #000;
 				box-shadow: 0px 2px 18px rgba(0, 0, 0, 0.08);
 				opacity: 1;
 				border-radius: 30upx;

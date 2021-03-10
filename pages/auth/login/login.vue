@@ -34,7 +34,6 @@
 			</view>
 			<view class="third-party-login">
 				<image class="third-party-icon" src="@/static/images/ico03@2x.png" mode=""></image>
-				<image class="third-party-icon" src="@/static/images/ico02@2x.png" mode=""></image>
 			</view>
 			<view class="agreement">
 				<text class="agreement-text">登录注册表示同意许可使用协议、隐私政策</text>

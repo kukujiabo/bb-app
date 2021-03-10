@@ -2,27 +2,46 @@
 	<view class="hobby">
 		<view class="title-wrapper">
 			<image class="title-left" src="../../../static/images/arrow-left.png" @click="back()"></image>
-			<text class="exam-title">兴趣爱好</text>
+			<text class="exam-title">筛选</text>
 		</view>
 		<view class="hobby-wrapper">
-			<text class="hobby-wrapper-title">运动</text>
+			<text class="hobby-wrapper-title">性别</text>
 		</view>
-		<view class="hobby-item" @click="toSetting">
-			<text class="hobby-item-text">{{ userinfo.select_sports_name || '未选择' }}</text>
+		<view class="hobby-item" @click="chooseSex">
+			<text class="hobby-item-text">{{getSex || '未选择' }}</text>
 		</view>
 		<view class="hobby-wrapper">
-			<text class="hobby-wrapper-title">旅游</text>
+			<text class="hobby-wrapper-title">城市</text>
 		</view>
-		<view class="hobby-item" @click="toSetting">
-			<text class="hobby-item-text">{{userinfo.select_travel_name || '未选择' }}</text>
+		<view class="hobby-item" @click="chooseAddress">
+			<text class="hobby-item-text">{{currentCity || '未选择' }}</text>
 		</view>
+		<selector
+			ref="selector"
+			:currentId="currentId"
+			:title="currentOptions.selectTitle" 
+			:options="currentOptions.options"
+			:confirmText="currentOptions.confirmText"
+			@confirm="selectConfirm"
+			>
+		</selector>
 	</view>
 </template>
 
 <script>
+	import Selector from '../../../components/selector.vue'
 	import request from '../../../utils/request.js'
-	import { userinfo } from '@/config/api'
+	import { userinfo, matchCondition, getCondition } from '@/config/api'
 	export default {
+		components: {
+			Selector
+		},
+		computed: {
+			getSex() {
+				const sex = this.sexOptions.options.find(option => option.id === this.currentSex)
+				return sex ? sex.name : ''
+			}
+		},
 		data() {
 			return {
 				userinfo: {
@@ -45,17 +64,80 @@
 					"times": 0,
 					"is_vip": 0,
 					"expire_time": ""
-				}
+				},
+				currentId: 0,
+				currentOptions: {},
+				sexOptions: {
+					key: 'select_sex',
+					selectTitle: '选择性别',
+					confirmText: '确定',
+					options: [{
+						id: 0,
+						name: '全部'			
+					},{
+						id: 1,
+						name: '男'
+					},{
+						id: 2,
+						name: '女'
+					}]
+				},
+				currentSex: 0,
+				addressOptions: {
+					key: 'address',
+					selectTitle: '地址',
+					confirmText: '确定',
+					options: [{
+						id: '全部',
+						name: '全部'			
+					}, {
+						id: '北京',
+						name: '北京'
+					},{
+						id: '海南',
+						name: '海南'
+					},{
+						id: '广西',
+						name: '广西'
+					},{
+						id: '广东',
+						name: '广东'
+					},{
+						id: '湖南',
+						name: '湖南'
+					},{
+						id: '山东',
+						name: '山东'
+					}],
+				},
+				currentCity: '全部'
 			};
 		},
 		onLoad() {
 			this.getUserInfo()
+			this.getSetting()
 		},
 		methods: {
 			back() {
 				uni.navigateBack({
 					
 				})
+			},
+			async getSetting() {
+				const user_id = uni.getStorageSync('uid')
+				const res = await request(getCondition, { user_id }, { }, 'get')
+				console.log(res.result)
+				this.currentCity = res.result.user_info.match_city
+				this.currentSex = res.result.user_info.match_sex
+				console.log(res.result.user_info)
+			},
+			chooseAddress() {
+				this.currentOptions = this.addressOptions
+				this.$refs.selector.show()
+			},
+			chooseSex() {
+				this.currentOptions = this.sexOptions
+				this.$refs.selector.show()
 			},
 			async getUserInfo() {
 				const user_id = uni.getStorageSync('uid')
@@ -66,6 +148,18 @@
 				uni.navigateTo({
 					url: '/pages/my/settings/settings'
 				})
+			},
+			selectConfirm(evt) {
+				const id = evt.id
+				const name = evt.name
+				const user_id = uni.getStorageSync('uid')
+				if (this.currentOptions.key === 'address') {
+					this.currentCity = id
+					const res =request(matchCondition, { user_id, match_city: id })
+				} else {
+					this.currentSex = id
+					const res =request(matchCondition, { user_id, match_sex: id })
+				}
 			}
 		}
 	}

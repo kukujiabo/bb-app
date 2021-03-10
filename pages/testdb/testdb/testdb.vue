@@ -5,7 +5,13 @@
 			<text class="exam-title">知识题库</text>
 		</view>
 		<view class="test-wrapper">
-			<view class="page-list-item" v-for="test in question_list" :key="test.id" @click="toDoQuestion(test.id)">
+			<view
+				class="page-list-item"
+				v-for="test in question_list"
+				:key="test.id"
+				@click="toDoQuestion(test.id)"
+				:style="{ background: '#' + test.rgba }"
+				>
 				<text class="page-list-item-title">{{test.title}}</text>
 				<view class="page-list-item-join">
 					<view class="page-list-item-join-mask"></view>
@@ -91,7 +97,7 @@
 			.page-list-item {
 				width: 670upx;
 				height: 220upx;
-				background: #000;
+				background: #00BFFF;
 				box-shadow: 0px 2px 18px rgba(0, 0, 0, 0.08);
 				opacity: 1;
 				border-radius: 30upx;

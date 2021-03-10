@@ -3,10 +3,9 @@
 		<view class="title-wrapper">
 			<view class="title-left-wrapper">
 				<image class="title-left" src="../../../static/images/arrow-left.png" @click="back()"></image>
-				<text class="exam-title">我的空间</text>
+				<text class="exam-title" v-if="uid">{{user_info.nickname}}的空间</text>
+				<text class="exam-title" v-else>我的空间</text>
 			</view>
-			<image v-if="is_secret === 1" class="lock" src="../../../static/images/lock.png" @click="tapLock"></image>
-			<image v-else class="lock" src="../../../static/images/lock-active.png" @click="tapLock"></image>
 		</view>
 		<view v-for="space in new_space" :key="space.id">
 			<view class="top-image" v-if="space.imgs.length === 1">
@@ -88,6 +87,7 @@
 				space_info: {
 					
 				},
+				uid: 0,
 				user_info: {
 					"userid": 6,
 					"head": "",
@@ -112,9 +112,15 @@
 				new_space: []
 			};
 		},
-		onLoad() {
-			this.user_info = uni.getStorageSync('user_info')
-			this.getSpaceInfo()
+		onLoad(options) {
+			if (options.uid) {
+				this.uid = options.uid
+				this.user_info.head = options.head
+				this.user_info.nickname = options.nickname
+				console.log(options)
+			} else {
+				this.user_info = uni.getStorageSync('user_info')
+			}
 			this.getSpaceList()
 		},
 		methods: {
@@ -143,12 +149,11 @@
 				this.$refs.selector.show()
 			},
 			async getSpaceInfo() {
-				const user_id = uni.getStorageSync('uid')
+				const user_id = this.uid ? this.uid : uni.getStorageSync('uid')
 				const res = await request(myspace, { user_id, sn: 1 })
-				console.log(res)
 			},
 			async getSpaceList() {
-				const user_id = uni.getStorageSync('uid')
+				const user_id = this.uid ? this.uid : uni.getStorageSync('uid')
 				const res = await request(spacelist, { user_id })
 				this.new_space = res.result.new_space
 				this.is_secret = res.result.user_info.is_secret
