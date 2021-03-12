@@ -94,6 +94,30 @@
 						id: '北京',
 						name: '北京'
 					},{
+						id: '上海',
+						name: '上海'
+					}, {
+						id: '重庆',  
+						name: '重庆'
+					}, {
+						id: '天津',
+						name: '天津'
+					}, {
+						id: '安徽',
+						name: '安徽'
+					}, {
+						id: '宁夏',
+						name: '宁夏'
+					}, {
+						id: '黑龙江',
+						name: '黑龙江'
+					},{
+						id: '大连',
+						name: '大连'
+					},{
+						id: '吉林',
+						name: '吉林'
+					},{
 						id: '海南',
 						name: '海南'
 					},{
@@ -108,6 +132,54 @@
 					},{
 						id: '山东',
 						name: '山东'
+					},{
+						id: '贵州',
+						name: '贵州'
+					},{
+						id: '云南',
+						name: '云南'
+					},{
+						id: '甘肃',
+						name: '甘肃'
+					},{
+						id: '四川',
+						name: '四川'
+					},{
+						id: '新疆',
+						name: '新疆'
+					},{
+						id: '西藏',
+						name: '西藏'
+					},{
+						id: '江西',
+						name: '江西'
+					},{
+						id: '内蒙古',
+						name: '内蒙古'
+					},{
+						id: '河南',
+						name: '河南'
+					},{
+						id: '河北',
+						name: '河北'
+					},{
+						id: '湖北',
+						name: '湖北'
+					},{
+						id: '陕西',
+						name: '陕西'
+					},{
+						id: '山西',
+						name: '山西'
+					},{
+						id: '江苏',
+						name: '江苏'
+					},{
+						id: '浙江',
+						name: '浙江'
+					},{
+						id: '福建',
+						name: '福建'
 					}],
 				},
 				currentCity: '全部'
@@ -173,19 +245,16 @@
 		overflow: auto;
 		padding: 0 30upx;
 		box-sizing: border-box;
-
 		.title-wrapper {
 			display: flex;
 			flex-direction: row;
 			align-items: center;
 			margin-top: 107upx;
 			justify-content: flex-start;
-
 			.title-left {
 				width: 40upx;
 				height: 40upx;
 			}
-
 			.exam-title {
 				margin-left: 13upx;
 				font-size: 40upx;
@@ -195,7 +264,6 @@
 				color: #282828;
 			}
 		}
-		
 		.hobby-wrapper {
 			margin-top: 113upx;
 			height: 136upx;

@@ -17,7 +17,7 @@
 				<text class="match-tips-text">{{matchInfo.words}}</text>
 			</view>
 			<view class="match-time-wrapper">
-				<text class="match-time-text">{{matchInfo.period_time[0]}}~{{matchInfo.period_time[1]}}</text>
+				<text class="match-time-text">{{matchInfo.period_time[0]}}</text>
 			</view>
 			<view v-if="!matchSuccess">
 				<view class="apply-date" @click="dopay">
@@ -121,22 +121,22 @@
 			this.getMatch()
 			const user_id = uni.getStorageSync('uid')
 			if (user_id) {
-				handler = setInterval(async () => {
-					const res = await request(getApply, {
-						user_id,
-						match_id: this.matchInfo.match_id
-					}, {}, 'get')
-					this.applyInfo = res.result.apply_info
-					if (this.applyInfo.nickname) {
-						this.$refs.matchNotice.showNotice()
-					}
-				}, 1500)
+				// handler = setInterval(async () => {
+				// 	const res = await request(getApply, {
+				// 		user_id,
+				// 		match_id: this.matchInfo.match_id
+				// 	}, {}, 'get')
+				// 	this.applyInfo = res.result.apply_info
+				// 	if (this.applyInfo.nickname) {
+				// 		this.$refs.matchNotice.showNotice()
+				// 	}
+				// }, 1500)
 				handler2 = setInterval(async () => {
 					const res = await request(getApplyNum, {
 						user_id
 					}, {}, 'get')
 					this.apply_num = res.result.apply_num
-				}, 3000)
+				}, 5000)
 			}
 		},
 		onUnload() {
@@ -203,7 +203,7 @@
 				})
 			},
 			async dopay() {
-				if (!this.matchInfo.match_id) {
+				if (!this.matchInfo.new_match_id) { 
 					return
 				}
 				const user_id = uni.getStorageSync('uid')

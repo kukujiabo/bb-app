@@ -36,7 +36,7 @@
 					<view class="operation-btn" v-if="tabIndex === 2" style="color:#20B2AA"  @click="dealApply(d.id, 0)">
 						<text>拒绝</text>
 					</view>
-					<view class="operation-btn" @click="toSpace(d.person)">
+					<view class="operation-btn" @click="toSpace(d.person, d.friend_id)">
 						<text>看看TA</text>
 					</view>
 				</view>
@@ -53,7 +53,7 @@
 	} from '@/config/api';
 	import request from '../../../utils/request.js'
 	export default {
-		data() {
+		data() { 
 			return {
 				tabIndex: 1,
 				data_list: []
@@ -67,9 +67,7 @@
 		},
 		methods: {
 			back() {
-				uni.navigateBack({
-
-				})
+				uni.navigateBack({ })
 			},
 			switchTab(index) {
 				this.tabIndex = index
@@ -78,20 +76,19 @@
 			async getMatchedList() {
 				const user_id = uni.getStorageSync('uid')
 				const res = await request(matchList, {
-					user_id, sn: this.tabIndex
+					user_id, sn: this.tabIndex % 2 + 1
 				}, {}, 'get')
 				this.data_list = res.result.data_list
 			},
-			toSpace(person) {
-				console.log(person)
-				uni.navigateTo({
-					url: `../space/space?uid=${person.id}&nickname=${person.nickname}&head=${person.head}`
+			toSpace(person, friend_id) {
+				const user_id = uni.getStorageSync('uid')
+				uni.navigateTo({ 
+					url: `../friendSpace/friendSpace?user_id=${user_id}&friend_id=${friend_id}`
 				})
 			},
 			async dealApply(match_id, type) {
 				const user_id = uni.getStorageSync('uid')
 				const res = request(dealApply, { user_id, type, match_id })
-				console.log(res,  user_id, type, match_id )
 				if (type === 1) {
 					uni.showToast({
 						icon: 'none',

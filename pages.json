@@ -227,6 +227,15 @@
 				"navigationStyle": "custom"
 			}
 
+		}, {
+			"path": "pages/my/friendSpace/friendSpace",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false,
+				"navigationBarTextStyle": "black",
+				"navigationStyle": "custom"
+			}
+
 		}
 	],
 	"tabBar": {

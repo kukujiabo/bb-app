@@ -53,7 +53,7 @@
 <script>
 	import request from '../../../utils/request.js'
 	import Selector from '../../../components/selector.vue'
-	import { editHeader, editUser } from '@/config/api'
+	import { editHeader, editUser, userinfo } from '@/config/api'
 	export default {
 		components: {
 			Selector
@@ -70,7 +70,7 @@
 		},
 		data() {
 			return {
-				currentId: 0,
+				currentId: 1,
 				currentOptions: {
 					selectTitle: '',
 					options: [],
@@ -112,7 +112,8 @@
 			};
 		},
 		onShow() {
-			this.user_info = uni.getStorageSync('user_info')
+			this.getUserInfo()
+			this.currentId = this.user_info.sex
 		},
 		methods: {
 			back() { 
@@ -146,19 +147,19 @@
 					sex: option.id
 				}
 				const res = await request(editUser, params)
-				console.log(res,'---')
 				if (res.code === 200) {
 					this.getUserInfo()
 					uni.showToast({
 						title: '修改成功！'
 					})
-				}
+				} 
 			},
-			async getUserInfo() {
+			async getUserInfo() { 
 				const user_id = uni.getStorageSync('uid')
 				const res = await request(userinfo, { user_id })
-				console.log(userinfo, 'userinfo')
 				this.user_info = res.result.user_info
+				this.currentId = this.user_info.sex
+				console.log(this.currentId, 'this/.currentId')
 			},
 			editHeader() {
 				const user_id = uni.getStorageSync('uid')

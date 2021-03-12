@@ -5,7 +5,7 @@
 			<text class="exam-title">知识题库</text>
 		</view>
 		<view class="match-title-wrapper">
-			<rich-text :nodes="currentQuestion.title" space="nbsp"></rich-text>
+			<rich-text :nodes="formatRichText(currentQuestion.title)" space="nbsp"></rich-text>
 		</view>
 		<view class="question-image-wrapper">
 			<image class="question-image" :src="currentQuestion.cover_img"></image>
@@ -34,6 +34,7 @@
 		questionList,
 		submitText
 	} from '@/config/api.json';
+	
 	export default {
 		data() {
 			return {
@@ -63,6 +64,21 @@
 			this.getQuestionList()
 		},
 		methods: {
+			formatRichText(html){
+			  let newContent= html.replace(/<img[^>]*>/gi,function(match,capture){
+			    match = match.replace(/style="[^"]+"/gi, '').replace(/style='[^']+'/gi, '');
+			    match = match.replace(/width="[^"]+"/gi, '').replace(/width='[^']+'/gi, '');
+			    match = match.replace(/height="[^"]+"/gi, '').replace(/height='[^']+'/gi, '');
+			    return match;
+			  });
+			  newContent = newContent.replace(/style="[^"]+"/gi,function(match,capture){
+			    match = match.replace(/width:[^;]+;/gi, 'max-width:100%;').replace(/width:[^;]+;/gi, 'max-width:100%;');
+			    return match;
+			  });
+			  newContent = newContent.replace(/<br[^>]*\/>/gi, '');
+			  newContent = newContent.replace(/\<img/gi, '<img style="max-width:100%;height:auto;display:block;margin-top:0;margin-bottom:0;"');
+			  return newContent;
+			},
 			async getQuestionList() {
 				const user_id = uni.getStorageSync('uid')
 				const cid = this.cid

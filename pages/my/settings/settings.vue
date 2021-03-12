@@ -17,10 +17,6 @@
 				<text class="content-title">职业</text>
 				<image class="toleft" src="../../../static/images/ico07@2x.png"></image>
 			</view>
-			<view class="content-item">
-				<text class="content-title">出生日期</text>
-				<image class="toleft" src="../../../static/images/ico07@2x.png"></image>
-			</view>
 			<view class="content-item" @tap="showSelectColor(6)">
 				<text class="content-title">地址</text>
 				<image class="toleft" src="../../../static/images/ico07@2x.png"></image>
@@ -75,7 +71,7 @@
 					options: [],
 				},
 				tripOptions: {
-					key: 'select_traval',
+					key: 'select_travel',
 					selectTitle: '旅游',
 					confirmText: '确定',
 					options: [],
@@ -88,7 +84,7 @@
 				},
 				wordOptions: {
 					key: 'info',
-					selectTitle: '格言',
+					selectTitle: '格言', 
 					confirmText: '确定',
 					options: [],
 				},
@@ -97,8 +93,35 @@
 					selectTitle: '地址',
 					confirmText: '确定',
 					options: [{
+						id: '全部',
+						name: '全部'			
+					}, {
 						id: '北京',
 						name: '北京'
+					},{
+						id: '上海',
+						name: '上海'
+					}, {
+						id: '重庆',
+						name: '重庆'
+					}, {
+						id: '天津',
+						name: '天津'
+					}, {
+						id: '安徽',
+						name: '安徽'
+					}, {
+						id: '宁夏',
+						name: '宁夏'
+					}, {
+						id: '黑龙江',
+						name: '黑龙江'
+					},{
+						id: '大连',
+						name: '大连'
+					},{
+						id: '吉林',
+						name: '吉林'
 					},{
 						id: '海南',
 						name: '海南'
@@ -111,7 +134,58 @@
 					},{
 						id: '湖南',
 						name: '湖南'
-					},],
+					},{
+						id: '山东',
+						name: '山东'
+					},{
+						id: '贵州',
+						name: '贵州'
+					},{
+						id: '云南',
+						name: '云南'
+					},{
+						id: '甘肃',
+						name: '甘肃'
+					},{
+						id: '四川',
+						name: '四川'
+					},{
+						id: '新疆',
+						name: '新疆'
+					},{
+						id: '西藏',
+						name: '西藏'
+					},{
+						id: '江西',
+						name: '江西'
+					},{
+						id: '内蒙古',
+						name: '内蒙古'
+					},{
+						id: '河南',
+						name: '河南'
+					},{
+						id: '河北',
+						name: '河北'
+					},{
+						id: '湖北',
+						name: '湖北'
+					},{
+						id: '陕西',
+						name: '陕西'
+					},{
+						id: '山西',
+						name: '山西'
+					}, {
+						id: '江苏',
+						name: '江苏'
+					},{
+						id: '浙江',
+						name: '浙江'
+					},{
+						id: '福建',
+						name: '福建'
+					}],
 				},
 				currentOptions: {},
 				userinfo: {
@@ -142,7 +216,8 @@
 			this.getSportList()
 			this.getTripList()
 			this.getWordList()
-			this.getWorkList()
+			this.getWorkList() 
+			this.currentOptions = this.addressOptions
 		},
 		onShow() {
 			this.getUserInfo()
@@ -160,6 +235,7 @@
 				switch(index) {
 					case 1:
 						this.currentId = this.userinfo.select_color
+						console.log(this.currentId, 'currentId')
 						this.currentOptions = this.colorOptions
 					break;
 					case 2:
@@ -175,7 +251,7 @@
 						this.currentOptions = this.workOptions
 					break;
 					case 5:
-						this.currentId = this.userinfo.info
+						this.currentId = this.userinfo.info 
 						this.currentOptions = this.wordOptions
 					break;
 					case 6:
@@ -230,6 +306,7 @@
 				const user_id = uni.getStorageSync('uid')
 				const res = await request(userinfo, { user_id })
 				this.userinfo = res.result.user_info
+				console.log(this.userinfo, 'this.userinfo')
 			}
 		}
 	}

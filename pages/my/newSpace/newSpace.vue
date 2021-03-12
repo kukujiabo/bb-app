@@ -51,7 +51,7 @@
 				imgs: [],
 				lockType: '所有人可见',
 				content: '',
-				is_secret: 0,
+				is_secret: 1,
 				selectorOptions: {
 					key: 'info',
 					selectTitle: '保密',
@@ -75,7 +75,7 @@
 			},
 			async selectConfirm(option) {
 				this.is_secret = option.id
-				console.log(this.is_secret)
+				this.lockType = option.name
 			},
 			uploadImage() {
 				const user_id = uni.getStorageSync('uid')

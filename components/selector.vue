@@ -6,15 +6,17 @@
 				<text class="b-s-title-text">{{title}}</text>
 				<image class="b-s-close" src="../static/images/close.png" @tap="hide"></image>
 			</view>
-			<view
-				class="b-s-options"
-				v-for="(option, idx) in options"
-				:key="option.id"
-				:class="{ active: confirmOption.id === option.id }"
-				@tap="select(option)"
-				>
-				<text class="">{{option.name}}</text>
-			</view>
+			<scroll-view class="b-s-option-container" scroll-y>
+				<view
+					class="b-s-options"
+					v-for="(option, idx) in options"
+					:key="option.id" 
+					:class="{ active: confirmOption.id ? confirmOption.id == option.id : currentId == option.id }"
+					@tap="select(option)"
+					>
+					<text class="">{{option.name}}</text>
+				</view>
+			</scroll-view>
 			<view class="b-s-button" @tap="confirm">
 				<text>{{confirmText}}</text>
 			</view>
@@ -125,6 +127,10 @@
 					height: 40upx;
 					z-index: 102;
 				}
+			}
+			.b-s-option-container {
+				max-height: 1000upx;
+				overflow-y: scroll;
 			}
 			.b-s-options {
 				height: 100upx;

@@ -54,7 +54,7 @@
 				<text class="page-list-item-title">{{test.title}}</text>
 				<view class="page-list-item-join">
 					<view class="page-list-item-join-mask"></view>
-					<text>{{test.numbers}}人在线</text>
+					<text>{{test.numbers}}人 在线</text>
 				</view>
 			</view>
 		</view>

@@ -3,9 +3,11 @@
 		<view class="title-wrapper">
 			<view class="title-left-wrapper">
 				<image class="title-left" src="../../../static/images/arrow-left.png" @click="back()"></image>
-				<text class="exam-title" v-if="uid">{{user_info.nickname}}的空间</text>
-				<text class="exam-title" v-else>我的空间</text>
+				<text class="exam-title" >{{user_info.nickname}}的空间</text>
 			</view>
+		</view>
+		<view class="empty-space" v-if="new_space.length === 0">
+			<text>空间还没有内容～</text>
 		</view>
 		<view v-for="space in new_space" :key="space.id">
 			<view class="top-image" v-if="space.imgs.length === 1">
@@ -13,16 +15,17 @@
 					<image class="user-info-head" :src="user_info.head"></image>
 					<text class="user-info-nickname">{{user_info.nickname}}</text>
 				</view>
-				<view class="top-title">
+				<view class="top-title"> 
 					<text class="top-title-text">{{space.desc}}</text>
 				</view>
-				<view class="top-image-wrapper">
+				<view class="top-image-wrapper"> 
 					<image class="top-image-image" :src="space.imgs[0]"></image>
 				</view>
 				<view class="bottom">
 					<text class="bottom-text">{{space.publish_time}}</text>
-					<view class="thumb">
-						<image class="thumb-image" src="../../../static/images/thumb.png"></image>
+					<view class="thumb" @click="toggleLike(space)">
+						<image class="thumb-image" v-if="space.is_like === 1" src="../../../static/images/thumb.png"></image>
+						<image class="thumb-image" v-else src="../../../static/images/thumb-gray.png"></image>
 						<text class="thumb-text">{{space.likes}}</text>
 					</view>
 				</view>
@@ -38,10 +41,11 @@
 				<view class="top-image-wrapper">
 					<image v-for="img in space.imgs" :key="img" class="small-image-image" :src="img"></image>
 				</view>
-				<view class="bottom">
+				<view class="bottom" @click="toggleLike(space)">
 					<text class="bottom-text">{{space.publish_time}}</text>
 					<view class="thumb">
-						<image class="thumb-image" src="../../../static/images/thumb-gray.png"></image>
+						<image class="thumb-image" v-if="space.is_like === 1" src="../../../static/images/thumb.png"></image>
+						<image class="thumb-image" v-else src="../../../static/images/thumb-gray.png"></image>
 						<text class="thumb-text">{{space.likes}}</text>
 					</view>
 				</view>
@@ -57,20 +61,20 @@
 			@confirm="selectConfirm"
 			>
 		</selector>
-		<image class="add-new" src="../../../static/plus.png" @click="toAddNew"></image>
-	</view>
+	</view> 
 </template>
 
 <script>
 	import Selector from '../../../components/selector.vue';
 	import request from '../../../utils/request.js'
-	import { myspace, editUser, spacelist } from '@/config/api'
+	import { myspace, editUser, spacelist, friendSpace, addLikes } from '@/config/api'
 	export default {
 		components: {
 			Selector
 		},
 		data() {
 			return {
+				friend_id: 0,
 				is_secret: 0,
 				selectorOptions: {
 					key: 'info',
@@ -109,21 +113,28 @@
 					"is_vip": 0,
 					"expire_time": ""
 				},
-				new_space: []
+				new_space: [],
+				queryOptions: {}
 			};
 		},
 		onLoad(options) {
-			if (options.uid) {
-				this.uid = options.uid
-				this.user_info.head = options.head
-				this.user_info.nickname = options.nickname
-				console.log(options)
-			} else {
-				this.user_info = uni.getStorageSync('user_info')
-			}
-			this.getSpaceList()
+			this.queryOptions = options
+			this.friend_id = options.friend_id
+			this.getSpaceList(options)
 		},
 		methods: {
+			async toggleLike(space) {
+				const user_id = uni.getStorageSync('uid')
+				const isLike = space.is_like
+				const options = { 
+					user_id, 
+					friend_id: this.friend_id,
+					space_id: space.id, 
+					sn: 1 - isLike 
+				}
+				const res = await request(addLikes, options)
+				this.getSpaceList(this.queryOptions)
+			}, 
 			back() {
 				uni.navigateBack()
 			},
@@ -132,7 +143,6 @@
 					url: '../newSpace/newSpace'
 				})
 			},
-			
 			async selectConfirm(option) {
 				const user_id = uni.getStorageSync('uid')
 				const params = {
@@ -152,11 +162,10 @@
 				const user_id = this.uid ? this.uid : uni.getStorageSync('uid')
 				const res = await request(myspace, { user_id, sn: 1 })
 			},
-			async getSpaceList() {
-				const user_id = this.uid ? this.uid : uni.getStorageSync('uid')
-				const res = await request(spacelist, { user_id })
+			async getSpaceList(options) {
+				const res = await request(friendSpace, { ...options })
 				this.new_space = res.result.new_space
-				this.is_secret = res.result.user_info.is_secret
+				this.user_info = res.result.user_info
 			}
 		}
 	}
@@ -170,6 +179,14 @@
 		background-color: #f6f6f6;
 		box-sizing: border-box;
 		padding: 0 40upx;
+		.empty-space {
+			height: 400upx;
+			display: flex;
+			flex-direction: row;
+			justify-content: center;
+			align-items: center;
+			color: #afafaf;
+		}
 		.add-new {
 			position: fixed;
 			bottom: 100upx;
